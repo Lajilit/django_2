@@ -1,1 +1,1 @@
-django_basic
+# Django 2 Project
