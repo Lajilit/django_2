@@ -1,0 +1,47 @@
+[
+  {
+    "category": 1,
+    "name": "Отличный стул",
+    "image": "products_images/slider1.jpg",
+    "short_desc": "Стул для дома",
+    "description": "Расположитесь комфортно. Отличное качество материалов позволит вам это. Различные цвета. Высочайший уровень эргономики и прочность.",
+    "price": "2589.90",
+    "quantity": 1
+  },
+  {
+    "category": 2,
+    "name": "Стул повышенного качества",
+    "image": "products_images/product-21.jpg",
+    "short_desc": "Очень удобный стул",
+    "description": "Отличный стул для дома и офиса",
+    "price": "2999.00",
+    "quantity": 1
+  },
+  {
+    "category": 3,
+    "name": "Современный светильник",
+    "image": "products_images/product-5-sm.jpg",
+    "short_desc": "Светильник",
+    "description": "Светильник для дома и офиса, который вам точно понравится",
+    "price": "5000.00",
+    "quantity": 2
+  },
+  {
+    "category": 4,
+    "name": "Светильник \"Как раньше\"",
+    "image": "products_images/product-2-sm.jpg",
+    "short_desc": "Классический светильник",
+    "description": "Этот светильник вам точно понравится",
+    "price": "4500.00",
+    "quantity": 2
+  },
+  {
+    "category": 1,
+    "name": "Диван безмятежность",
+    "image": "products_images/product-3-sm.jpg",
+    "short_desc": "Очень мягкий диван",
+    "description": "Отличный диван, который украсит вашу гостиную",
+    "price": "20000.00",
+    "quantity": 1
+  }
+]

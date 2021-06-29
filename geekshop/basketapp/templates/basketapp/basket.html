@@ -1,0 +1,30 @@
+{% extends 'layout.html' %}
+{% block title %}{{ title|capfirst }}{% endblock %}
+{% load static %}
+{% block css %}
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static '/basketapp/style.css' %}">
+{% endblock %}
+{% block content %}
+<div class="hero-white">
+    {% include 'includes/inc_main_menu.html' %}
+</div>
+<div class="basket_container">
+    <h2 class="big-bold">Ваша корзина,
+        {% if user.first_name %}
+        {{ user.first_name|title}}
+        {% else %}
+        Пользователь
+        {% endif %}</h2>
+    <div class="basket_list">
+        {% include 'basketapp/includes/inc_basket_list.html' %}
+    </div>
+</div>
+{% endblock %}
+{% block js %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <script src="{% static 'basketapp/js/basket_scripts.js' %}"></script>
+{% endblock %}

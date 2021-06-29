@@ -1,0 +1,92 @@
+{% extends 'adminapp/layout.html' %}
+{% block title %}{{ title|capfirst }}{% endblock %}
+{% load static %}
+
+{% block content %}
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4">Пользователи</h1>
+        <div class="card mb-4">
+            <div class="card-header">
+                <i class="fas fa-table mr-1"></i>
+                Пользователи
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable"
+                           width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Имя пользователя</th>
+                            <th>Имя</th>
+                            <th>Фамилия</th>
+                            <th>Адрес эл. почты</th>
+                            <th>Персонал сайта</th>
+                            <th>Активный</th>
+                            <th>Удалить</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Имя пользователя</th>
+                            <th>Имя</th>
+                            <th>Фамилия</th>
+                            <th>Адрес эл. почты</th>
+                            <th>Персонал сайта</th>
+                            <th>Активный</th>
+                            <th>Удалить</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        {% for object in objects %}
+                        <tr class="{% if object.is_deleted %}
+                            is_deleted
+                            {% endif %}">
+                            <td>
+                                <a href="{% url 'admin_panel:user_update' object.id %}"
+                                   style="color: dodgerblue">
+                                    {{ object.username }}
+                                </a>
+                            </td>
+                            <td>{{ object.first_name }}</td>
+                            <td>{{ object.last_name }}</td>
+                            <td>{{ object.email }}</td>
+                            <td class="text-center">
+                                {% if object.is_staff %}
+                                <i class="fa fa-check-circle"></i>
+                                {% else %}
+                                <i class="fa fa-times-circle"></i>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                {% if object.is_active %}
+                                <i class="fa fa-check-circle"></i>
+                                {% else %}
+                                <i class="fa fa-times-circle"></i>
+                                {% endif %}
+                            </td>
+                            <td class="text-center">
+                                {% if not object.is_deleted %}
+                                <a href="{% url 'admin_panel:user_delete' object.pk %}">
+                                    Удалить
+                                </a>
+                                {% else %}
+                                <p>Удален</p>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a href="{% url 'adminapp:user_create' %}">
+                    <button class="btn btn-success">Создать пользователя
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

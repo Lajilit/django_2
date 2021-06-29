@@ -1,0 +1,20 @@
+{% extends 'authapp/layout.html' %}
+{% load static %}
+
+{% block title %}{{ title|title }}{% endblock %}
+{% block content %}
+<form class="form-horizontal" action="{% url 'auth:login' %}" method="post">
+    {% csrf_token %}
+    {% if next %}
+    <input type="hidden" name="next" value="{{ next }}">
+    {% endif %}
+
+    {{ login_form.as_p }}
+    <br>
+    <input class="form-control" type="submit" value="войти">
+</form>
+<a href="{% url 'authapp:register' %}" class="">
+    Ещё не зарегистрированы? Создать аккаунт
+</a>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+<!--<a href="#" class="nav_link active">-->
+<!--    <i class='bx bx-grid-alt nav_icon'></i>-->
+<!--    <span class="nav_name">Dashboard</span>-->
+<!--</a>-->
+<a href="{% url 'admin_panel:users' %}"
+   class="{% if request.resolver_match.url_name == 'users' %}
+        active
+    {% endif %} nav_link">
+    <i class='bx bx-user nav_icon'></i>
+    <span class="nav_name">Пользователи</span>
+</a>
+<a href="{% url 'admin_panel:categories' %}"
+   class="{% if request.resolver_match.url_name == 'categories' %}
+        active
+    {% endif %} nav_link">
+    <i class='bx bxs-category nav_icon'></i>
+    <span class="nav_name">Категории</span>
+</a>
+<a href="{% url 'admin_panel:products' 0 %}"
+   class="{% if request.resolver_match.url_name == 'products' %}
+        active
+    {% endif %} nav_link">
+    <i class='bx bx-list-ul nav_icon'></i>
+    <span class="nav_name">Товары</span>
+</a>
+<!--<a href="#" class="nav_link">-->
+<!--    <i class='bx bx-folder nav_icon'></i>-->
+<!--    <span class="nav_name">Files</span>-->
+<!--</a>-->
+<!--<a href="#" class="nav_link">-->
+<!--    <i class='bx bx-bar-chart-alt-2 nav_icon'></i>-->
+<!--    <span class="nav_name">Stats</span>-->
+<!--</a>-->

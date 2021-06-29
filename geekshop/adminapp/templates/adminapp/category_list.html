@@ -1,0 +1,59 @@
+{% extends 'adminapp/layout.html' %}
+{% block title %}{{ title|capfirst }}{% endblock %}
+{% load static %}
+
+{% block content %}
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4">{{ title|capfirst }}</h1>
+        <div class="card mb-4">
+            <div class="card-header">
+                <a href="{% url 'admin_panel:category_create' %}">
+                    <button class="btn btn-success">Новая категория</button>
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable"
+                           width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Название</th>
+                            <th>Описание</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for object in objects %}
+                        <tr class="{% if object.is_deleted %}
+                            is_deleted
+                            {% endif %}">
+                            <td class="text-center">
+                                <a href="{% url 'admin_panel:products' object.pk %}">
+                                    {{ object.name|title }}
+                                </a>
+                            </td>
+                            <td>{{ object.description }}</td>
+                            <td class="text-center">
+                                <a href="{% url 'admin_panel:category_update' object.pk %}">
+                                    редактировать
+                                </a>
+                                <br>
+                                {% if not object.is_deleted %}
+                                <a href="{% url 'admin_panel:category_delete' object.pk %}">
+                                    Удалить
+                                </a>
+                                {% else %}
+                                <p>Удален</p>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

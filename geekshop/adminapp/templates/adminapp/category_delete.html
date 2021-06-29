@@ -1,0 +1,33 @@
+{% extends 'adminapp/layout.html' %}
+{% load static %}
+
+{% block content %}
+<div class="w-50 m-auto">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="text-center">{{ title|capfirst }}</h1>
+            <p class="text-center">
+                Уверены, что хотите удалить категорию {{ object }} {% if prod_to_del %}, а также товары: {% endif %}
+
+                {{ objects }}
+            </p>
+            {% for product in prod_to_del %}
+            <p class="text-center">
+                {{ product.name}}
+            </p>
+            {% endfor %}
+        </div>
+    </div>
+    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-round btn-danger form-control"
+               value="Удалить">
+    </form>
+
+    <button class="btn btn-round form-control last">
+        <a href="{% url 'admin_panel:categories' %}">
+            к списку категорий
+        </a>
+    </button>
+</div>
+{% endblock %}
