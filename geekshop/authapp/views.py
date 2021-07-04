@@ -1,14 +1,14 @@
 from django.conf import settings
+from django.contrib import auth, messages
 from django.core.mail import send_mail
 from django.shortcuts import render, HttpResponseRedirect
-from authapp.forms import ShopUserLoginForm
-from authapp.forms import ShopUserRegisterForm
-from authapp.forms import ShopUserEditForm
-from django.contrib import auth
 from django.urls import reverse
-
-from authapp.models import ShopUser
 from mainapp.views import get_basket
+
+from .forms import ShopUserEditForm
+from .forms import ShopUserLoginForm
+from .forms import ShopUserRegisterForm
+from .models import ShopUser
 
 
 def login(request):
@@ -18,7 +18,7 @@ def login(request):
 
     next = request.GET['next'] if 'next' in request.GET.keys() else ''
 
-    if request.method == 'POST'and login_form.is_valid():
+    if request.method == 'POST' and login_form.is_valid():
         username = request.POST['username']
         password = request.POST['password']
 
@@ -29,8 +29,6 @@ def login(request):
                 return HttpResponseRedirect(request.POST['next'])
             else:
                 return HttpResponseRedirect(reverse('index'))
-
-
 
     content = {
         'title': title,
@@ -53,15 +51,22 @@ def register(request):
             user = register_form.save()
             if send_verify_mail(user):
                 print('сообщение подтверждения отправлено')
-                return HttpResponseRedirect(reverse('auth:verify_link_send'))
+                messages.success(request, 'Ссылка для активации аккаунта \
+                отправлена на вашу электронную почту')
+                return HttpResponseRedirect(reverse('auth:register'))
             else:
                 print('ошибка отправки сообщения')
-                return HttpResponseRedirect(reverse('auth:verify_link_failed'))
+                messages.error(request, 'Ошибка отправки сообщения')
+                return HttpResponseRedirect(reverse('auth:register'))
         else:
+            error_message = 'Ошибка. Проверьте правильность заполнения данных \
+            формы'
             register_form = ShopUserRegisterForm()
             context = {
                 'title': title,
-                'register_form': register_form}
+                'register_form': register_form,
+                'error_message': error_message
+            }
             return render(request, 'authapp/register.html', context)
     else:
         register_form = ShopUserRegisterForm()
@@ -119,29 +124,3 @@ def verify(request, email, activation_key):
     except Exception as e:
         print(f'error activation user : {e.args}')
         return HttpResponseRedirect(reverse('index'))
-
-def link_send_fail(request):
-    message = {
-        'text': 'Cообщение на электронную почту не отправлено',
-        'link': 'auth:register',
-        'link_description': 'Перейти к регистрации пользователя'
-    }
-    context = {
-        'title': 'ошибка',
-        'message': message,
-    }
-    return render(request, 'authapp/verify_link_send.html', context)
-
-def link_send_sucsess (request):
-    message = {
-        'text': 'Ссылка для активации учетной записи отправлена \
-        на вашу электронную почту',
-        'link': 'auth:login',
-        'link_description': 'Войти'
-    }
-    context = {
-        'title': 'завершение регистрации пользователя',
-        'message': message,
-    }
-    return render(request, 'authapp/verify_link_send.html', context)
-
