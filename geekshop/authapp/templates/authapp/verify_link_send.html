@@ -1,0 +1,13 @@
+{% extends 'authapp/layout.html' %}
+{% load static %}
+
+<!--{% block title %}{{ title|capfirst }}{% endblock %}-->
+{% block content %}
+    <br>
+    <p>{{ message.text }}</p>
+    <br>
+    <a href="{% url message.link %}" class="">
+        {{ message.link_description }}
+    </a>
+
+{% endblock %}

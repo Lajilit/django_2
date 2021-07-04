@@ -53,10 +53,10 @@ def register(request):
             user = register_form.save()
             if send_verify_mail(user):
                 print('сообщение подтверждения отправлено')
-                return HttpResponseRedirect(reverse('auth:login'))
+                return HttpResponseRedirect(reverse('auth:verify_link_send'))
             else:
                 print('ошибка отправки сообщения')
-                return HttpResponseRedirect(reverse('auth:login'))
+                return HttpResponseRedirect(reverse('auth:verify_link_failed'))
         else:
             register_form = ShopUserRegisterForm()
             context = {
@@ -119,3 +119,29 @@ def verify(request, email, activation_key):
     except Exception as e:
         print(f'error activation user : {e.args}')
         return HttpResponseRedirect(reverse('index'))
+
+def link_send_fail(request):
+    message = {
+        'text': 'Cообщение на электронную почту не отправлено',
+        'link': 'auth:register',
+        'link_description': 'Перейти к регистрации пользователя'
+    }
+    context = {
+        'title': 'ошибка',
+        'message': message,
+    }
+    return render(request, 'authapp/verify_link_send.html', context)
+
+def link_send_sucsess (request):
+    message = {
+        'text': 'Ссылка для активации учетной записи отправлена \
+        на вашу электронную почту',
+        'link': 'auth:login',
+        'link_description': 'Войти'
+    }
+    context = {
+        'title': 'завершение регистрации пользователя',
+        'message': message,
+    }
+    return render(request, 'authapp/verify_link_send.html', context)
+

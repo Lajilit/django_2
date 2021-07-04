@@ -1,7 +1,7 @@
 {% extends 'authapp/layout.html' %}
 {% load static %}
 
-{% block title %}{{ title|title }}{% endblock %}
+{% block title %}{{ title|capfirst }}{% endblock %}
 {% block content %}
 <form class="form-horizontal" action="{% url 'auth:login' %}" method="post">
     {% csrf_token %}
