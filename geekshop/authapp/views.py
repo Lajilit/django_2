@@ -3,7 +3,6 @@ from django.contrib import auth, messages
 from django.core.mail import send_mail
 from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse
-from mainapp.views import get_basket
 
 from .forms import ShopUserEditForm
 from .forms import ShopUserLoginForm
@@ -91,7 +90,6 @@ def edit(request):
     content = {
         'title': title,
         'edit_form': edit_form,
-        'basket': get_basket(request.user),
     }
 
     return render(request, 'authapp/edit.html', content)

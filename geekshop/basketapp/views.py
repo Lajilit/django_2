@@ -5,7 +5,7 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse
 from basketapp.models import Basket
 from mainapp.models import Product
-from mainapp.views import get_basket
+# from mainapp.views import get_basket
 
 
 @login_required
@@ -17,7 +17,6 @@ def basket(request):
     context = {
         'title': title,
         'basket_items': basket_items,
-        'basket': get_basket(request.user),
 
     }
 
