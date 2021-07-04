@@ -52,26 +52,23 @@ def register(request):
                 print('сообщение подтверждения отправлено')
                 messages.success(request, 'Ссылка для активации аккаунта \
                 отправлена на вашу электронную почту')
-                return HttpResponseRedirect(reverse('auth:register'))
+                return HttpResponseRedirect(reverse('auth:login'))
             else:
                 print('ошибка отправки сообщения')
                 messages.error(request, 'Ошибка отправки сообщения')
-                return HttpResponseRedirect(reverse('auth:register'))
+                return HttpResponseRedirect(reverse('auth:login'))
         else:
-            error_message = 'Ошибка. Проверьте правильность заполнения данных \
-            формы'
-            register_form = ShopUserRegisterForm()
+            register_form = ShopUserRegisterForm(request.POST, request.FILES)
             context = {
                 'title': title,
-                'register_form': register_form,
-                'error_message': error_message
+                'form': register_form,
             }
             return render(request, 'authapp/register.html', context)
     else:
         register_form = ShopUserRegisterForm()
         context = {
             'title': title,
-            'register_form': register_form}
+            'form': register_form}
         return render(request, 'authapp/register.html', context)
 
 

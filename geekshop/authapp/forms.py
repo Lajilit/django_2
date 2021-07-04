@@ -43,7 +43,7 @@ class ShopUserRegisterForm(UserCreationForm):
                   'email',
                   # 'age',
                   'avatar',
-                  'is_staff'
+                  # 'is_staff'
                   )
 
     def __init__(self, *args, **kwargs):

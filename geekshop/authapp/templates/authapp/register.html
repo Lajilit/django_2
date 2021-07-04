@@ -6,25 +6,16 @@
 {% endif %}
 
 {% block content %}
-    {% if messages %}
-        <p class="messages">
-            {% for message in messages %}
-                {{ message }}
-            {% endfor %}
-        </p>
-    {% else %}
-        {% if error_message %}
-        <p>{{ error_message }}</p>
-        {% endif %}
-        <form class="form-horizontal"
-              action="{% url 'auth:register' %}"
-              method="post"
-              enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ register_form.as_p }}
-            <br>
-            <input class="form-control" type="submit"
-                   value="Зарегистрироваться">
-        </form>
-    {% endif %}
+
+    <form class="form-horizontal"
+          action="{% url 'auth:register' %}"
+          method="post"
+          enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {{ form.as_p }}
+        <br>
+        <input class="form-control" type="submit"
+               value="Зарегистрироваться">
+    </form>
 {% endblock %}
