@@ -25,8 +25,17 @@
         <br>
         <input class="form-control" type="submit" value="войти">
     </form>
-    <a href="{% url 'authapp:register' %}" class="">
-        Ещё не зарегистрированы? Создать аккаунт
-    </a>
+    <button class="btn btn-round form-control">
+        <a href="{% url 'authapp:register' %}" class="">
+            Ещё не зарегистрированы? Создать аккаунт
+        </a>
+    </button>
+    <br>
+    <button class="btn btn-round form-control">
+        <a href="{% url 'social:begin' 'vk-oauth2' %}?next=/">
+            Вход через ВКонтакте
+        </a>
+    </button>
+
 
 {% endblock %}

@@ -30,6 +30,7 @@ urlpatterns = [
 
     path('', views.index, name='index'),
     path('contacts/', views.contact, name='contacts'),
+    path('', include('social_django.urls', namespace='social')),
 
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
