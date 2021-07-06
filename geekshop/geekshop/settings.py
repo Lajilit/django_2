@@ -66,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'mainapp.context_processors.basket',
             ],
         },
     },
@@ -147,3 +148,14 @@ AUTH_USER_MODEL = 'authapp.ShopUser'
 LOGIN_URL = '/auth/login/'
 
 
+DOMAIN_NAME = 'http://localhost:8000'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = '465'
+EMAIL_HOST_USER = 'lajilgbacc@gmail.com'
+EMAIL_HOST_PASSWORD = 'gb!acc123lajil'
+EMAIL_USE_SSL = True
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.AllowAllUsersModelBackend',
+]

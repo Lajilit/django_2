@@ -5,10 +5,10 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DetailView
 from django.views.generic.edit import DeleteView
 
-from adminapp.forms import ShopUserAdminEditForm, ProductCategoryEditForm, \
-    ProductEditForm, ShopUserAdminRegisterForm
 from authapp.models import ShopUser
 from mainapp.models import ProductCategory, Product
+from .forms import ShopUserAdminEditForm, ProductCategoryEditForm, \
+    ProductEditForm, ShopUserAdminRegisterForm
 
 
 class UsersListView(LoginRequiredMixin, ListView):

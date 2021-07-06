@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
 
-<html>
 <head>
     <meta charset="utf-8">
     <title>{% block title %}{% endblock %}</title>
@@ -24,7 +23,7 @@
             {% include 'includes/inc_main_menu.html' %}
         </div>
         <div class="login">
-            <div class="h2 text-center head">{{ heading }}</div>
+            <div class="h2 text-center head">{{ title|capfirst }}</div>
             {% block content %}
             {% endblock %}
         </div>
@@ -61,4 +60,3 @@
     {% block js %}
     {% endblock %}
 </body>
-</html>

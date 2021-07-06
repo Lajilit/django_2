@@ -1,20 +1,32 @@
 {% extends 'authapp/layout.html' %}
 {% load static %}
 
-{% block title %}{{ title|title }}{% endblock %}
+{% block title %}{{ title|capfirst }}{% endblock %}
 {% block content %}
-<form class="form-horizontal" action="{% url 'auth:login' %}" method="post">
-    {% csrf_token %}
-    {% if next %}
-    <input type="hidden" name="next" value="{{ next }}">
+
+    {% if messages %}
+        <br>
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %}
+                    class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        <br>
     {% endif %}
 
-    {{ login_form.as_p }}
-    <br>
-    <input class="form-control" type="submit" value="войти">
-</form>
-<a href="{% url 'authapp:register' %}" class="">
-    Ещё не зарегистрированы? Создать аккаунт
-</a>
+    <form class="form-horizontal" action="{% url 'auth:login' %}" method="post">
+        {% csrf_token %}
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}">
+        {% endif %}
+        <h2>{{ not_is_active }}</h2>
+        {{ login_form.as_p }}
+        <br>
+        <input class="form-control" type="submit" value="войти">
+    </form>
+    <a href="{% url 'authapp:register' %}" class="">
+        Ещё не зарегистрированы? Создать аккаунт
+    </a>
 
 {% endblock %}
