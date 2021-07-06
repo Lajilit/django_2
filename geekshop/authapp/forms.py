@@ -80,7 +80,7 @@ class ShopUserEditForm(UserChangeForm):
             'first_name',
             'last_name',
             'email',
-            # 'age',
+            'age',
             'avatar',
             'password',
         )
@@ -94,12 +94,12 @@ class ShopUserEditForm(UserChangeForm):
             if field_name == 'password':
                 field.widget = forms.HiddenInput()
 
-    # def clean_age(self):
-    #     data = self.cleaned_data['age']
-    #     if data < 18:
-    #         raise forms.ValidationError("Вы слишком молоды!")
-    #
-    #     return data
+    def clean_age(self):
+        data = self.cleaned_data['age']
+        if data < 18:
+            raise forms.ValidationError("Вы слишком молоды!")
+
+        return data
 
 class ShopUserProfileEditForm(forms.ModelForm):
     class Meta:

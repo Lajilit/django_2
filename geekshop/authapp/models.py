@@ -13,9 +13,10 @@ class ShopUser(AbstractUser):
         upload_to='users_avatars',
         blank=True
     )
-    # age = models.PositiveIntegerField(
-    #     verbose_name='возраст'
-    # )
+    age = models.PositiveIntegerField(
+        default=18,
+        verbose_name='возраст'
+    )
     is_deleted = models.BooleanField(
         default=False,
         verbose_name='пользователь удален'
