@@ -4,8 +4,8 @@ from . import views
 app_name = 'authapp'
 
 urlpatterns = [
-    path('login/', views.login, name='login'),
-    path('logout/', views.logout, name='logout'),
+    path('login/', views.UserLoginView.as_view(), name='login'),
+    path('logout/', views.UserLogoutView.as_view(), name='logout'),
     path('register/', views.register, name='register'),
     path('edit/', views.edit, name='edit'),
     path('verify/<email>/<activation_key>/', views.verify,
