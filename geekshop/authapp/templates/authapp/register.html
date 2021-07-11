@@ -12,7 +12,6 @@
           method="post"
           enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.non_field_errors }}
         {{ form.as_p }}
         <br>
         <input class="form-control" type="submit"
