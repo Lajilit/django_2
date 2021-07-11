@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'authapp',
     'basketapp',
     'adminapp',
+    'ordersapp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
