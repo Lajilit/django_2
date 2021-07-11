@@ -14,10 +14,15 @@
             active
             {% endif %}">контакты</a></li>
         {% if user.is_authenticated %}
-        <li>
-          <a href="{% url 'auth:edit' %}">
-            {{ user.first_name|default:'Пользователь' }}
-          </a>
+        <li class="dropdown">
+            <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                {{ user.first_name|default:'Пользователь' }}
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a class="dropdown-item" href="{% url 'auth:edit' %}">Профиль</a></li>
+                <li><a class="dropdown-item" href="{% url 'auth:edit' %}">Ваши заказы</a></li>
+            </ul>
+
         </li>
         {% endif %}
         {% if user.is_superuser %}
