@@ -1,6 +1,6 @@
+from django.conf import settings
 from django.db import models
 
-from django.conf import settings
 from mainapp.models import Product
 
 
@@ -73,3 +73,20 @@ class OrderItem(models.Model):
     def get_product_cost(self):
         return self.product.price * self.quantity
 
+    @staticmethod
+    def get_item(pk):
+        return OrderItem.objects.get(id=pk)
+
+    def save(self, *args, **kwargs):
+        if self.pk:
+            self.product.quantity -= self.quantity - \
+                                     self.__class__.get_item(self.pk).quantity
+        else:
+            self.product.quantity -= self.quantity
+        self.product.save()
+        super().save(*args, **kwargs)
+
+    def delete(self):
+        self.product.quantity += self.quantity
+        self.product.save()
+        super().delete()

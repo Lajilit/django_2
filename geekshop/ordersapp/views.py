@@ -29,11 +29,19 @@ class OrderItemsCreate(CreateView):
                                              OrderItem,
                                              form=OrderItemForm,
                                              extra=1)
-
+        basket_items = Basket.get_items(self.request.user)
         if self.request.POST:
             formset = order_form_set(self.request.POST)
+            # basket_items = Basket.get_items(self.request.user)
+            for num, form in enumerate(formset.forms):
+                product = basket_items[num].product
+                quantity = basket_items[num].quantity
+                product.quantity += quantity
+                product.save()
+            basket_items.delete()
+
         else:
-            basket_items = Basket.get_items(self.request.user)
+            # basket_items = Basket.get_items(self.request.user)
             if len(basket_items):
                 order_form_set = inlineformset_factory(Order,
                                                      OrderItem,
@@ -43,7 +51,6 @@ class OrderItemsCreate(CreateView):
                 for num, form in enumerate(formset.forms):
                     form.initial['product'] = basket_items[num].product
                     form.initial['quantity'] = basket_items[num].quantity
-                basket_items.delete()
             else:
                 formset = order_form_set()
 
