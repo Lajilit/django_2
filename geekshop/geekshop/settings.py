@@ -15,6 +15,7 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 # environ
 import environ
 
@@ -28,9 +29,9 @@ env.read_env('.env')
 SECRET_KEY = env('SECRET_KEY', None)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'authapp',
     'basketapp',
     'adminapp',
+    'ordersapp',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -130,7 +132,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
-    'geekshop/static'
+    'geekshop/static',
 ]
 
 STATICFILES_FINDERS = [
@@ -164,6 +166,8 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 LOGIN_ERROR_URL = '/auth/login'
+LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/auth/login'
 
 # VK AUTH
 SOCIAL_AUTH_VK_OAUTH2_KEY = env('VK_ID')

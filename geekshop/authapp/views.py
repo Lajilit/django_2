@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib import auth, messages
+from django.contrib.auth.views import LoginView, LogoutView
 from django.core.mail import send_mail
 from django.db import transaction
 from django.shortcuts import render, HttpResponseRedirect
@@ -11,36 +12,19 @@ from .forms import ShopUserRegisterForm
 from .models import ShopUser
 
 
-def login(request):
-    title = 'Вход в систему'
+class UserLoginView(LoginView):
+    model = ShopUser
+    template_name = 'authapp/login.html'
+    form_class = ShopUserLoginForm
 
-    login_form = ShopUserLoginForm(data=request.POST or None)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Вход в систему'
 
-    next = request.GET['next'] if 'next' in request.GET.keys() else ''
+        return context
 
-    if request.method == 'POST' and login_form.is_valid():
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = auth.authenticate(username=username, password=password)
-        if user and user.is_active:
-            auth.login(request, user)
-            if 'next' in request.POST.keys():
-                return HttpResponseRedirect(request.POST['next'])
-            else:
-                return HttpResponseRedirect(reverse('index'))
-
-    content = {
-        'title': title,
-        'login_form': login_form,
-        'next': next,
-    }
-    return render(request, 'authapp/login.html', content)
-
-
-def logout(request):
-    auth.logout(request)
-    return HttpResponseRedirect(reverse('index'))
+class UserLogoutView(LogoutView):
+    next_page = 'index'
 
 
 def register(request):

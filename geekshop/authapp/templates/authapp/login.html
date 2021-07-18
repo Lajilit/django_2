@@ -20,8 +20,7 @@
         {% if next %}
             <input type="hidden" name="next" value="{{ next }}">
         {% endif %}
-        <h2>{{ not_is_active }}</h2>
-        {{ login_form.as_p }}
+        {{ form.as_p }}
         <br>
         <input class="form-control" type="submit" value="войти">
     </form>
