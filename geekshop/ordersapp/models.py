@@ -61,7 +61,6 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-
     order = models.ForeignKey(Order,
                               related_name="orderitems",
                               on_delete=models.CASCADE)
@@ -77,17 +76,3 @@ class OrderItem(models.Model):
     @staticmethod
     def get_item(pk):
         return OrderItem.objects.get(id=pk)
-
-    # def save(self, *args, **kwargs):
-    #     if self.pk:
-    #         self.product.quantity -= self.quantity - \
-    #                                  self.__class__.get_item(self.pk).quantity
-    #     else:
-    #         self.product.quantity -= self.quantity
-    #     self.product.save()
-    #     super().save(*args, **kwargs)
-    #
-    # def delete(self):
-    #     self.product.quantity += self.quantity
-    #     self.product.save()
-    #     super().delete()
