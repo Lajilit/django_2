@@ -3,6 +3,7 @@ asgiref==3.4.0
 certifi==2021.5.30
 cffi==1.14.5
 chardet==4.0.0
+common==0.1.2
 cryptography==3.4.7
 defusedxml==0.7.1
 distlib==0.3.2
