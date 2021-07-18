@@ -23,34 +23,37 @@ class OrderList(ListView):
 class OrderItemsCreate(CreateView):
     model = Order
     fields = []
-    success_url = reverse_lazy('ordersapp:orders_list')
+
+    def get_success_url(self, **kwargs):
+        pk = self.object.pk
+        return reverse('ordersapp:order_update', args=[pk])
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        order_form_set = inlineformset_factory(Order,
+        data = super().get_context_data(**kwargs)
+        OrderFormSet = inlineformset_factory(Order,
                                                OrderItem,
                                                form=OrderItemForm,
                                                extra=1)
         basket_items = Basket.get_items(self.request.user)
         if self.request.POST:
-            formset = order_form_set(self.request.POST)
+            formset = OrderFormSet(self.request.POST)
             basket_items.delete()
         else:
             if len(basket_items):
-                order_form_set = inlineformset_factory(Order,
+                OrderFormSet = inlineformset_factory(Order,
                                                        OrderItem,
                                                        form=OrderItemForm,
                                                        extra=len(basket_items))
-                formset = order_form_set()
+                formset = OrderFormSet()
                 for num, form in enumerate(formset.forms):
                     form.initial['product'] = basket_items[num].product
                     form.initial['quantity'] = basket_items[num].quantity
                     form.initial['price'] = basket_items[num].product.price
             else:
-                formset = order_form_set()
-        context['orderitems'] = formset
-        context['title'] = 'создание заказа'
-        return context
+                formset = OrderFormSet()
+        data['orderitems'] = formset
+        data['title'] = 'создание заказа'
+        return data
 
     def form_valid(self, form):
         context = self.get_context_data()
@@ -82,24 +85,27 @@ class OrderRead(DetailView):
 class OrderItemsUpdate(UpdateView):
     model = Order
     fields = []
-    success_url = reverse_lazy('ordersapp:orders_list')
+
+    def get_success_url(self, **kwargs):
+        pk = self.object.pk
+        return reverse('ordersapp:order_update', args=[pk])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        order_form_set = inlineformset_factory(Order,
+        OrderFormSet = inlineformset_factory(Order,
                                                OrderItem,
                                                form=OrderItemForm,
                                                extra=1)
         if self.request.POST:
-            context['orderitems'] = order_form_set(self.request.POST,
-                                                instance=self.object)
+            formset = OrderFormSet(self.request.POST,
+                                     instance=self.object)
         else:
-            formset = order_form_set(instance=self.object)
+            formset = OrderFormSet(instance=self.object)
             for form in formset.forms:
                 if form.instance.pk:
                     form.initial['price'] = form.instance.product.price
-            context['orderitems'] = formset
-            context['title'] = 'редактирование заказа'
+        context['orderitems'] = formset
+        context['title'] = 'редактирование заказа'
         return context
 
     def form_valid(self, form):
