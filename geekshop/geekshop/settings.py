@@ -29,7 +29,7 @@ env.read_env('.env')
 SECRET_KEY = env('SECRET_KEY', None)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG', False)
 
 ALLOWED_HOSTS = ['185.254.189.138']
 # Application definition
@@ -88,11 +88,9 @@ WSGI_APPLICATION = 'geekshop.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': env.db('DATABASE_URL')
 }
+DATABASES['default']['ATOMIC REQUESTS'] = True
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
