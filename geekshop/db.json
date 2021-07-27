@@ -1,0 +1,196 @@
+[
+  {
+    "model": "mainapp.productcategory",
+    "pk": 1,
+    "fields": {
+      "name": "Дом",
+      "description": "Товары для дома",
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mainapp.productcategory",
+    "pk": 2,
+    "fields": {
+      "name": "Офис",
+      "description": "Тофары для офиса",
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mainapp.productcategory",
+    "pk": 3,
+    "fields": {
+      "name": "Модерн",
+      "description": "Современные товары",
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mainapp.productcategory",
+    "pk": 4,
+    "fields": {
+      "name": "Классика",
+      "description": "Нестареющая классика",
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mainapp.productcategory",
+    "pk": 5,
+    "fields": {
+      "name": "Комфорт",
+      "description": "Самая удобная мебель",
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mainapp.productcategory",
+    "pk": 6,
+    "fields": {
+      "name": "Совсем новая категория",
+      "description": "И новое описание для неё",
+      "is_deleted": true
+    }
+  },
+  {
+    "model": "mainapp.product",
+    "pk": 1,
+    "fields": {
+      "category": 1,
+      "name": "Отличный стул",
+      "image": "products_images/slider1.jpg",
+      "short_desc": "Стул для дома",
+      "description": "Расположитесь комфортно. Отличное качество материалов позволит вам это. Различные цвета. Высочайший уровень эргономики и прочность.",
+      "price": "2589.90",
+      "quantity": 102,
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mainapp.product",
+    "pk": 2,
+    "fields": {
+      "category": 2,
+      "name": "Стул повышенного качества",
+      "image": "products_images/product-21.jpg",
+      "short_desc": "Очень удобный стул",
+      "description": "Отличный стул для дома и офиса",
+      "price": "2999.00",
+      "quantity": 96,
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mainapp.product",
+    "pk": 3,
+    "fields": {
+      "category": 3,
+      "name": "Современный светильник",
+      "image": "products_images/product-5-sm.jpg",
+      "short_desc": "Светильник",
+      "description": "Светильник для дома и офиса, который вам точно понравится",
+      "price": "5000.00",
+      "quantity": 102,
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mainapp.product",
+    "pk": 4,
+    "fields": {
+      "category": 4,
+      "name": "Светильник \"Как раньше\"",
+      "image": "products_images/product-2-sm.jpg",
+      "short_desc": "Классический светильник",
+      "description": "Этот светильник вам точно понравится",
+      "price": "4500.00",
+      "quantity": 101,
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mainapp.product",
+    "pk": 5,
+    "fields": {
+      "category": 1,
+      "name": "Диван безмятежность",
+      "image": "products_images/product-3-sm.jpg",
+      "short_desc": "Очень мягкий диван",
+      "description": "Отличный диван, который украсит вашу гостиную или столовую",
+      "price": "15000.00",
+      "quantity": 102,
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mainapp.product",
+    "pk": 6,
+    "fields": {
+      "category": 2,
+      "name": "Часы Бесконечность",
+      "image": "products_images/product-4-sm.jpg",
+      "short_desc": "Круглые часы",
+      "description": "Отлично держатся на стене. Не тикают",
+      "price": "1000.00",
+      "quantity": 100,
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mainapp.product",
+    "pk": 7,
+    "fields": {
+      "category": 4,
+      "name": "Чайник Электроклассика",
+      "image": "products_images/product-3.jpg",
+      "short_desc": "Белый чайник",
+      "description": "Согреет вашу душу",
+      "price": "3000.00",
+      "quantity": 101,
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mainapp.product",
+    "pk": 8,
+    "fields": {
+      "category": 1,
+      "name": "Набор кресел Домашний психолог",
+      "image": "products_images/product-2.jpg",
+      "short_desc": "Два синих кресла",
+      "description": "Очень мягкие и удобные кресла для пары",
+      "price": "15000.00",
+      "quantity": 99,
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mainapp.product",
+    "pk": 9,
+    "fields": {
+      "category": 3,
+      "name": "Настольная лампа Современник",
+      "image": "products_images/product-31.jpg",
+      "short_desc": "Настольная лампа с абажуром",
+      "description": "Обычная лампа. Светит. Не греет.",
+      "price": "2000.00",
+      "quantity": 104,
+      "is_deleted": false
+    }
+  },
+  {
+    "model": "mainapp.product",
+    "pk": 10,
+    "fields": {
+      "category": 4,
+      "name": "Ваза",
+      "image": "products_images/product-61.jpg",
+      "short_desc": "Просто ваза",
+      "description": "Ваза для цветов или конфет",
+      "price": "1000.00",
+      "quantity": 100,
+      "is_deleted": false
+    }
+  }
+]

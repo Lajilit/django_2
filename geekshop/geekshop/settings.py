@@ -29,7 +29,7 @@ env.read_env('.env')
 SECRET_KEY = env('SECRET_KEY', None)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG', False)
+DEBUG = env.bool('DEBUG',False)
 
 ALLOWED_HOSTS = ['185.254.189.138']
 # Application definition
@@ -129,7 +129,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static"
+    BASE_DIR / 'static',
+    'geekshop/static',
 ]
 
 STATICFILES_FINDERS = [
@@ -137,10 +138,10 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-STATIC_ROOT = "/var/www/django_2/static/"
+STATIC_ROOT = '/var/www/django_2/static/'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
