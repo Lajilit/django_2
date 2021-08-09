@@ -224,7 +224,7 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 
-# INTERNAL_IPS = ["127.0.0.1"]
+INTERNAL_IPS = ['185.254.189.138']
 
 # Debgu tool bar settings
 if DEBUG:
