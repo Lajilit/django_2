@@ -31,7 +31,7 @@ SECRET_KEY = env('SECRET_KEY', None)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG',False)
 
-ALLOWED_HOSTS = ['185.254.189.138']
+ALLOWED_HOSTS = ['185.254.189.138','lajil.ru']
 # Application definition
 
 INSTALLED_APPS = [
@@ -150,14 +150,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'authapp.ShopUser'
 
-DOMAIN_NAME = 'http://localhost:8000'
+DOMAIN_NAME = 'http://lajil.ru'
 
 # EMAIL
 EMAIL_HOST = env('EMAIL_HOST')
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = env('EMAIL_PORT')
-EMAIL_USE_TLS = True
+EMAIL_USE_SSL = True
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.AllowAllUsersModelBackend',
