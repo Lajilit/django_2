@@ -162,8 +162,8 @@ if DEBUG:
         BASE_DIR / 'static',
         'geekshop/static',
     ]
-else:
-    STATIC_ROOT = '/var/www/django_2/static/'
+# else:
+STATIC_ROOT = '/var/www/django_2/static/'
 
 # STATICFILES_FINDERS = [
 #     'django.contrib.staticfiles.finders.FileSystemFinder',
