@@ -162,13 +162,13 @@ if DEBUG:
         BASE_DIR / 'static',
         'geekshop/static',
     ]
-# else:
-STATIC_ROOT = '/var/www/django_2/geekshop/static/'
+else:
+    STATIC_ROOT = '/var/www/django_2/geekshop/static/'
 
-# STATICFILES_FINDERS = [
-#     'django.contrib.staticfiles.finders.FileSystemFinder',
-#     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-# ]
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
 
 
 # Media files
