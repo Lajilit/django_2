@@ -11,7 +11,7 @@
         <h3 class="big"> удобные стулья</h3>
         <p>Новый уровень комфорта. Отличные характеристики.</p>
         <a href="#" class="button-order">заказать <img
-                src="{% static 'img/arrow.png' %}" alt=""></a>
+                src="{% static 'mainapp/img/arrow.png' %}" alt=""></a>
     </div>
     <div class="navi">
         <a href="#"></a><a href="#"></a><a href="#"></a>
@@ -30,7 +30,7 @@
             {% endif %}>Новинки</a>
     </div>
     <a class="explore" href="{% url 'products:index' %}">показать все <img
-            src="{% static 'img/arrow.png' %}" alt=""></a>
+            src="{% static 'mainapp/img/arrow.png' %}" alt=""></a>
     <div class="clearfix">
     </div>
     <div class="tab-content">
@@ -40,7 +40,7 @@
                 <img class="img_block" src="/media/{{ product.image }}"
                                             alt="{{ product.short_desc }}">
                 <div class="text">
-                    <img src="{% static 'img/icon-hover.png' %}"
+                    <img src="{% static 'mainapp/img/icon-hover.png' %}"
                          alt="product.short_desc">
                     <h4>{{ product.name }}</h4>
                     <p>{{ product.short_desc }}</p>
