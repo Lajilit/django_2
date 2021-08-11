@@ -157,11 +157,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # In common case STATIC_ROOT can not be in STATICFILES_DIRS:
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-    'geekshop/static/',
+if DEBUG:
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static',
     ]
-#STATIC_ROOT = '/var/www/django_2/geekshop/static/'
+else:
+    STATIC_ROOT = '/var/www/django_2/geekshop/static/'
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
