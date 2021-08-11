@@ -32,9 +32,7 @@ SECRET_KEY = env('SECRET_KEY', None)
 DEBUG = env.bool('DEBUG',False)
 
 # ALLOWED_HOSTS = ['185.254.189.138','lajil.ru']
-ALLOWED_HOSTS = ["*"]
-
-
+ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
@@ -103,21 +101,20 @@ WSGI_APPLICATION = 'geekshop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# if DEBUG:
-#     DATABASES = {
-#         "default": {
-#             "ENGINE": "django.db.backends.sqlite3",
-#             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-#         }
-#     }
-# else:
 DATABASES = {
-    'default': env.db('DATABASE_URL')
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+    }
 }
-DATABASES['default']['ATOMIC REQUESTS'] = True
+# DATABASES = {
+#     'default': env.db('DATABASE_URL')
+# }
+# DATABASES['default']['ATOMIC REQUESTS'] = True
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
+
 
 if not DEBUG:
     AUTH_PASSWORD_VALIDATORS = [
@@ -156,24 +153,20 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# In common case STATIC_ROOT can not be in STATICFILES_DIRS
 if DEBUG:
     STATICFILES_DIRS = [
         BASE_DIR / 'static',
         'geekshop/static',
     ]
 else:
-    STATIC_ROOT = '/var/www/django_2/geekshop/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-
-# Media files
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Set login path:
@@ -183,13 +176,13 @@ LOGIN_URL = '/auth/login'
 LOGIN_ERROR_URL = '/auth/login'
 LOGIN_REDIRECT_URL = '/'
 
-DOMAIN_NAME = 'http://lajil.ru'
+# DOMAIN_NAME = 'http://lajil.ru'
+DOMAIN_NAME = 'http://localhost:8000'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 # EMAIL
 EMAIL_HOST = env('EMAIL_HOST')
@@ -223,8 +216,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
 )
 
-
-INTERNAL_IPS = ['185.254.189.138']
+INTERNAL_IPS = ['127.0.0.1']
 
 # Debug tool bar settings
 if DEBUG:
