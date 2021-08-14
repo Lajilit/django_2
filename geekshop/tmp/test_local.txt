@@ -7,3 +7,6 @@ contacts/
 auth/edit/          5
 backet/             23                  17
 Оптимизация:
+backet/             23                  17
+
+
