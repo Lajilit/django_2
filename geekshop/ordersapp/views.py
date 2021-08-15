@@ -34,7 +34,7 @@ class OrderItemsCreate(CreateView):
         OrderFormSet = inlineformset_factory(Order,
                                                OrderItem,
                                                form=OrderItemForm,
-                                               extra=10)
+                                               extra=1)
         basket_items = Basket.get_items(self.request.user)
         if self.request.POST:
             formset = OrderFormSet(self.request.POST)
@@ -96,7 +96,7 @@ class OrderItemsUpdate(UpdateView):
         OrderFormSet = inlineformset_factory(Order,
                                                OrderItem,
                                                form=OrderItemForm,
-                                               extra=10)
+                                               extra=1)
         if self.request.POST:
             formset = OrderFormSet(self.request.POST,
                                      instance=self.object)

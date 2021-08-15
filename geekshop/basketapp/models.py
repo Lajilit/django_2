@@ -21,20 +21,6 @@ class Basket(models.Model):
         """return cost of all products this type"""
         return self.product.price * self.quantity
 
-    @property
-    def total_quantity(self):
-        """return total quantity for user"""
-        _items = Basket.objects.filter(user=self.user).select_related('user')
-        _totalquantity = sum(list(map(lambda x: x.quantity, _items)))
-        return _totalquantity
-
-    @property
-    def total_cost(self):
-        """return total cost for user"""
-        _items = Basket.objects.filter(user=self.user).select_related('user','product')
-        _totalcost = sum(list(map(lambda x: x.product_cost, _items)))
-        return _totalcost
-
     @staticmethod
     def get_item(pk):
         return Basket.objects.get(id=pk)

@@ -164,7 +164,7 @@ if DEBUG:
     ]
 else:
     # STATIC_ROOT = '/var/www/django_2/geekshop/static/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'media')
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 STATICFILES_FINDERS = [

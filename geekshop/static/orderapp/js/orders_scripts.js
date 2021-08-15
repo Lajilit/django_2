@@ -35,7 +35,7 @@ window.onload = function () {
         $('.order_total_cost').html(Number(order_total_cost.toFixed(2)).toString());
     }
 
-    $('.order_form').on('click', 'input[type="number"]', function () {
+    $('.order_form').on('change', 'input[type="number"]', function () {
             var target = event.target;
             orderitem_num = parseInt(target.name.replace('orderitems-', '').replace('-quantity', ''));
             if (price_arr[orderitem_num]) {

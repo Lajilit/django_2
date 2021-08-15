@@ -13,12 +13,15 @@ def basket(request):
     title = 'корзина'
     basket_items = Basket.objects.\
         filter(user=request.user).\
-        order_by('product__category')
+        select_related()
+    total_quantity = sum(list(map(lambda x: x.quantity, basket_items)))
+    total_cost = sum(list(map(lambda x: x.product_cost, basket_items)))
 
     context = {
         'title': title,
         'basket_items': basket_items,
-
+        'total_quantity': total_quantity,
+        'total_cost': total_cost,
     }
 
     return render(request, 'basketapp/basket.html', context)
