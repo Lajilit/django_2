@@ -5,7 +5,7 @@ from mainapp.models import Product
 def index(request):
     data = {
         'title': 'магазин',
-        'products': Product.objects.exclude(is_deleted=True)[:4],
+        'products': Product.objects.exclude(is_deleted=True).order_by('-id')[:4],
     }
     return render(request, 'geekshop/index.html', context=data)
 
