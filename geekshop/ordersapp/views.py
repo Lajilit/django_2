@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, \
     DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from basketapp.models import Basket
 from mainapp.models import Product
@@ -14,14 +15,15 @@ from ordersapp.forms import OrderItemForm
 from ordersapp.models import Order, OrderItem
 
 
-class OrderList(ListView):
+
+class OrderList(LoginRequiredMixin, ListView):
     model = Order
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
 
 
-class OrderItemsCreate(CreateView):
+class OrderItemsCreate(LoginRequiredMixin, CreateView):
     model = Order
     fields = []
 
@@ -74,7 +76,7 @@ class OrderItemsCreate(CreateView):
         return super().form_valid(form)
 
 
-class OrderRead(DetailView):
+class OrderRead(LoginRequiredMixin, DetailView):
     model = Order
 
     def get_context_data(self, **kwargs):
@@ -83,7 +85,7 @@ class OrderRead(DetailView):
         return context
 
 
-class OrderItemsUpdate(UpdateView):
+class OrderItemsUpdate(LoginRequiredMixin, UpdateView):
     model = Order
     fields = []
 
@@ -126,7 +128,7 @@ class OrderItemsUpdate(UpdateView):
         return super().form_valid(form)
 
 
-class OrderDelete(DeleteView):
+class OrderDelete(LoginRequiredMixin, DeleteView):
     model = Order
     success_url = reverse_lazy('ordersapp:orders_list')
 
