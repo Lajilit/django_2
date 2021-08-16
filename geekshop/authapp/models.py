@@ -17,10 +17,6 @@ class ShopUser(AbstractUser):
         default=18,
         verbose_name='возраст'
     )
-    is_deleted = models.BooleanField(
-        default=False,
-        verbose_name='пользователь удален'
-    )
     activation_key = models.CharField(
         max_length=128,
         blank=True
@@ -28,6 +24,11 @@ class ShopUser(AbstractUser):
     activation_key_expires = models.DateTimeField(
         null=True
     )
+    is_active = models.BooleanField(
+        db_index=True,
+        default=True,
+    )
+
 
     def is_activation_key_expired(self):
         if now() <= self.activation_key_expires:

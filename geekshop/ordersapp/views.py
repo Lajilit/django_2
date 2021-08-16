@@ -37,7 +37,7 @@ class OrderItemsCreate(LoginRequiredMixin, CreateView):
                                                OrderItem,
                                                form=OrderItemForm,
                                                extra=1)
-        basket_items = Basket.get_items(self.request.user)
+        basket_items = Basket.get_items(self.request.user).select_related()
         if self.request.POST:
             formset = OrderFormSet(self.request.POST)
             basket_items.delete()
@@ -103,7 +103,8 @@ class OrderItemsUpdate(LoginRequiredMixin, UpdateView):
             formset = OrderFormSet(self.request.POST,
                                      instance=self.object)
         else:
-            formset = OrderFormSet(instance=self.object)
+            queryset = self.object.orderitems.select_related()
+            formset = OrderFormSet(instance=self.object, queryset=queryset)
             for form in formset.forms:
                 if form.instance.pk:
                     form.initial['price'] = form.instance.product.price

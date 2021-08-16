@@ -30,7 +30,7 @@
 
             </li>
         {% endif %}
-        {% if user.is_superuser %}
+        {% if user.is_staff %}
             <li>
                 <a href="{% url 'admin_panel:users' %}">админка</a>
             </li>
@@ -44,7 +44,7 @@
         </li>
     </ul>
     <a href="#" class="search"></a>
-    {% if basket.0 %}
+    {% if basket %}
         <a href="{% url 'basket:view' %}" class="basket">
         <span>
             {{ basket.0.total_cost|floatformat:0 }} руб

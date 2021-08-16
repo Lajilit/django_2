@@ -1,9 +1,9 @@
-{% extends 'geekshop/layout.html' %}
+{% extends 'mainapp/layout.html' %}
 {% block title %}{{ title|capfirst }}{% endblock %}
 {% load static %}
 {% block content %}
 <div class="hero-white">
-    {% include 'geekshop/includes/inc_main_menu.html' %}
+    {% include 'mainapp/includes/inc_main_menu.html' %}
 </div>
 <br>
 <div class="h2 text-center head">
@@ -55,10 +55,8 @@
        {% endfor %}
    </tbody>
 </table>
-<button class="btn btn-default btn-round">
-   <a href="{% url 'ordersapp:order_create' %}">
-       новый
-   </a>
-</button>
+{#<a href="{% url 'ordersapp:order_create' %}" class="red-button rb">#}
+{#   новый#}
+{#</a>#}
 {% endblock %}
 

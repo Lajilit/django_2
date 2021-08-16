@@ -1,4 +1,4 @@
-{% extends 'geekshop/layout.html' %}
+{% extends 'mainapp/layout.html' %}
 {% block title %}{{ title|capfirst }}{% endblock %}
 {% load static %}
 
@@ -6,14 +6,14 @@
 
     <div class="hero-white">
         <div class="header clearfix">
-            {% include 'geekshop/includes/inc_main_menu.html' %}
+            {% include 'mainapp/includes/inc_main_menu.html' %}
         </div>
     </div>
 
 
     <div class="details">
         <div class="links clearfix">
-            {% include 'geekshop/includes/inc_categories_menu.html' %}
+            {% include 'mainapp/includes/inc_categories_menu.html' %}
         </div>
 
         <div class="products_list">

@@ -988,6 +988,7 @@ td:first-child {
 	display: block;
 	height: 71px;
 	width: 510px;
+	margin: 0 auto;
 	border-radius: 35px;
 	background-color: #f44336;
 	text-align: center;

@@ -66,7 +66,7 @@ class UserDeleteView(LoginRequiredMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.object.is_deleted = True
+        self.object.is_active = False
         self.object.save()
 
         return HttpResponseRedirect(self.get_success_url())
@@ -128,11 +128,11 @@ class ProductCategoryDeleteView(LoginRequiredMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.object.is_deleted = True
+        self.object.is_active = False
         self.object.save()
         prod_to_del = Product.objects.filter(category__pk=self.object.pk)
         for product in prod_to_del:
-            product.is_deleted = True
+            product.is_active = False
             product.save()
 
         return HttpResponseRedirect(self.get_success_url())
@@ -151,14 +151,14 @@ class ProductsListView(ListView):
                 'name': 'все',
                 'pk': pk
             }
-            objects_list = Product.objects.all().order_by('is_deleted', 'name')
+            objects_list = Product.objects.all().order_by('-is_active', 'name')
 
         else:
             category = get_object_or_404(ProductCategory, pk=pk)
             title = f'Товары категории {category.name}'
             objects_list = Product.objects \
                 .filter(category__pk=pk) \
-                .order_by('is_deleted', 'name')
+                .order_by('-is_active', 'name')
 
         context['category'] = category
         context['object_list'] = objects_list
@@ -233,7 +233,7 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.object.is_deleted = True
+        self.object.is_active = False
         self.object.save()
 
         return HttpResponseRedirect(self.get_success_url())
