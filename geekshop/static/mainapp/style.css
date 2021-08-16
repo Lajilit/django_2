@@ -1108,7 +1108,7 @@ td:first-child {
     margin-bottom: 70px;
 }
 
-.rb,
+.category-products .red-button,
 .related-products .red-button {
 	display: block;
 	height: 10%;
@@ -1126,11 +1126,6 @@ td:first-child {
 	box-shadow: 0px 2px 4.85px 0.15px rgba(33, 33, 33, 0.35);
 	letter-spacing: 6px;
 	margin-top: 10px;
-}
-.rb  {
-	font-size: 12px;
-	font-weight: 500;
-	line-height: 30px;
 }
 
 .related-products .block {
