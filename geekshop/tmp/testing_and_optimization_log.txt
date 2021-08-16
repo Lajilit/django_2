@@ -1,0 +1,263 @@
+Количество запросов:
+Без авторизации:
+
+http://127.0.0.1:8000/ -  default 3,62 ms (1 запрос )
+http://127.0.0.1:8000/products/ -  default 4,98 ms (4 запроса )
+http://127.0.0.1:8000/contacts/ - нет запросов
+
+Админка:
+
+http://127.0.0.1:8000/admin_panel/users/create/ -  default 4,31 ms (3 запроса )
+http://127.0.0.1:8000/admin_panel/users/read/ -  default 4,85 ms (4 запроса )
+http://127.0.0.1:8000/admin_panel/users/update/1/ -  default 3,95 ms (4 запроса including 2 similar and 2 duplicates )
+http://127.0.0.1:8000/admin_panel/users/delete/1/ -  default 6,45 ms (4 запроса including 2 similar and 2 duplicates )
+http://127.0.0.1:8000/admin_panel/categories/create/ -  default 3,43 ms (3 запроса )
+http://127.0.0.1:8000/admin_panel/categories/create/ -  default 5,21 ms (3 запроса )
+http://127.0.0.1:8000/admin_panel/categories/read/ -  default 4,82 ms (4 запроса )
+http://127.0.0.1:8000/admin_panel/categories/update/1/ -  default 4,31 ms (4 запроса )
+http://127.0.0.1:8000/admin_panel/categories/delete/1/ -  default 5,84 ms (5 запросов )
+http://127.0.0.1:8000/admin_panel/products/create/category/0/ -  default 5,66 ms (4 запроса )
+http://127.0.0.1:8000/admin_panel/products/create/category/1/ -  default 5,33 ms (5 запросов )
+http://127.0.0.1:8000/admin_panel/products/read/category/0/ -  default 11,97 ms (14 запросов including 10 similar and 10 duplicates )
+http://127.0.0.1:8000/admin_panel/products/read/category/1/ -  default 7,75 ms (8 запросов including 4 similar and 4 duplicates )
+http://127.0.0.1:8000/admin_panel/products/read/10/ - default 5,73 ms (5 запросов )
+http://127.0.0.1:8000/admin_panel/products/update/10/ -  default 7,42 ms (7 запросов including 2 similar and 2 duplicates )
+http://127.0.0.1:8000/admin_panel/products/delete/10/ -  default 5,98 ms (5 запросов )
+
+С авторизацией:
+
+http://127.0.0.1:8000/ -  default 6,11 ms (5 запросов )
+http://127.0.0.1:8000/products/ - default 7,65 ms (8 запросов )
+http://127.0.0.1:8000/products/category/0/page/1/ - default 7,60 ms (7 запросов )
+http://127.0.0.1:8000/products/category/1/page/1/ - default 8,28 ms (8 запросов )
+http://127.0.0.1:8000/contacts/ -  default 5,30 ms (4 запроса )
+http://127.0.0.1:8000/auth/edit/ -  default 5,83 ms (5 запросов )
+http://127.0.0.1:8000/basket/ -  default 5,76 ms (5 запросов )
+http://127.0.0.1:8000/order/ -  default 5,83 ms (5 запросов )
+http://127.0.0.1:8000/order/create/ - default 12,20 ms (16 запросов including 12 similar and 12 duplicates )
+http://127.0.0.1:8000/order/read/2/ - default 9,77 ms (8 запросов including 3 similar and 3 duplicates )
+http://127.0.0.1:8000/order/update/2/ - default 25,20 ms (31 запрос including 24 similar and 24 duplicates )
+http://127.0.0.1:8000/order/delete/2/ - default 8,74 ms (7 запросов including 2 similar and 2 duplicates )
+
+С 3 товарами в корзине:
+
+http://127.0.0.1:8000/ - default 9,01 ms (11 запросов including 8 similar and 5 duplicates )
+http://127.0.0.1:8000/products/ -  default 11,46 ms (14 запросов including 8 similar and 5 duplicates )
+http://127.0.0.1:8000/contacts/ -   default 11,33 ms (10 запросов including 8 similar and 5 duplicates )
+http://127.0.0.1:8000/auth/edit/ -  default 10,88 ms (11 запросов including 8 similar and 5 duplicates )
+http://127.0.0.1:8000/basket/ -  default 17,99 ms (23 запроса including 20 similar and 19 duplicates )
+http://127.0.0.1:8000/order/ -  default 10,24 ms (11 запросов including 8 similar and 5 duplicates )
+http://127.0.0.1:8000/order/create/ - default 33,60 ms (47 запросов including 45 similar and 45 duplicates )
+http://127.0.0.1:8000/order/read/1/ -  default 9,86 ms (8 запросов including 3 similar and 3 duplicates )
+http://127.0.0.1:8000/order/update/1/ - default 103,19 ms (154 запроса including 148 similar and 145 duplicates )
+http://127.0.0.1:8000/order/delete/1/ -  default 11,91 ms (7 запросов including 2 similar and 2 duplicates )
+
+
+Адрес				Число запросов Число дублей
+/				    11		        8/5
+/products/			14		        8/5
+/basket/			23		        20/19
+/order/				11		        8/5
+/order/read/1/		8		        3/3
+/order/update/1/    154		        148/145
+
+
+Самые медленные контроллеры - в приложении заказов.
+Также необходимо оптимизировать приложение корзины и работу с категориями товаров.
+
+Дальнейшее тестирование идёт уже после оптимизации корзины и контекстного процессора,
+так как я сначала решила исправить то, что смогла, а затем дальше тестировать
+Функциональное и нагрузочное тестирование:
+
+URLS:
+http://lajil.ru/
+http://lajil.ru/auth/edit/
+http://lajil.ru/auth/login/
+http://lajil.ru/auth/register/
+http://lajil.ru/basket/
+http://lajil.ru/basket/add/1/
+http://lajil.ru/basket/edit/1/2/
+http://lajil.ru/basket/remove/1/
+http://lajil.ru/contacts/
+http://lajil.ru/order/
+http://lajil.ru/order/create/
+http://lajil.ru/order/read/3/
+http://lajil.ru/order/read/4/
+http://lajil.ru/order/update/3/
+http://lajil.ru/order/update/4/
+http://lajil.ru/order/delete/4
+http://lajil.ru/order/delete/4
+http://lajil.ru/products/
+http://lajil.ru/products/category/0/page/2/
+http://lajil.ru/products/category/1/page/1/
+http://lajil.ru/products/category/2/page/1/
+http://lajil.ru/products/category/3/page/1/
+http://lajil.ru/products/category/4/page/1/
+http://lajil.ru/products/product/1/
+http://lajil.ru/products/product/2/
+http://lajil.ru/products/product/3/
+http://lajil.ru/products/product/4/
+http://lajil.ru/products/product/5/
+http://lajil.ru/products/product/6/
+http://lajil.ru/products/product/7/
+http://lajil.ru/products/product/8/
+
+siege -f geekshop/tmp/test_urls.txt -d1 -r31 -c1
+** SIEGE 4.0.4
+** Preparing 1 concurrent users for battle.
+The server is now under siege...
+Transactions:                    304 hits
+Availability:                  99.02 %
+Elapsed time:                  48.86 secs
+Data transferred:               6.30 MB
+Response time:                  0.12 secs
+Transaction rate:               6.22 trans/sec
+Throughput:                     0.13 MB/sec
+Concurrency:                    0.73
+Successful transactions:         304
+Failed transactions:               3
+Longest transaction:            5.27
+Shortest transaction:           0.03
+
+Исправление ошибок:
+
+ siege -f geekshop/tmp/test_urls.txt -d1 -r31 -c1
+** SIEGE 4.0.4
+** Preparing 1 concurrent users for battle.
+The server is now under siege...
+Transactions:                    338 hits
+Availability:                 100.00 %
+Elapsed time:                  47.05 secs
+Data transferred:               5.45 MB
+Response time:                  0.09 secs
+Transaction rate:               7.18 trans/sec
+Throughput:                     0.12 MB/sec
+Concurrency:                    0.66
+Successful transactions:         338
+Failed transactions:               0
+Longest transaction:            1.38
+Shortest transaction:           0.03
+
+Тестирование с реальными пользователями:
+
+http://185.254.189.138/auth/login/?next=/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/auth/edit/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/basket/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/contacts/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/8/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/9/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/11/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/12/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/products/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/products/category/0/page/2/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/products/category/1/page/1/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/products/product/8/ POST username=test&password=test
+
+Функциональное тестирование:
+
+siege -f geekshop/tmp/test_urls.txt -d1 -r13 -c1
+** SIEGE 4.0.4
+** Preparing 1 concurrent users for battle.
+The server is now under siege...
+Transactions:                    158 hits
+Availability:                 100.00 %
+Elapsed time:                  35.98 secs
+Data transferred:               2.73 MB
+Response time:                  0.18 secs
+Transaction rate:               4.39 trans/sec
+Throughput:                     0.08 MB/sec
+Concurrency:                    0.78
+Successful transactions:         158
+Failed transactions:               0
+Longest transaction:            1.93
+Shortest transaction:           0.02
+
+siege -f geekshop/tmp/test_urls.txt -d0 -r13 -c1
+** SIEGE 4.0.4
+** Preparing 1 concurrent users for battle.
+The server is now under siege...
+Transactions:                    158 hits
+Availability:                 100.00 %
+Elapsed time:                  29.00 secs
+Data transferred:               2.73 MB
+Response time:                  0.18 secs
+Transaction rate:               5.45 trans/sec
+Throughput:                     0.09 MB/sec
+Concurrency:                    1.00
+Successful transactions:         158
+Failed transactions:               0
+Longest transaction:            1.94
+Shortest transaction:           0.03
+
+Нагрузочное тестирование:
+siege -f geekshop/tmp/test_urls.txt -d0 -r25 -c50
+
+Адрес				            Переходов	Время теста, с	Транзакций/сек	Время отклика, с
+
+/				                18743		940		19.92		2.41
+/products/			            16972		1055.76		16.08		2.99
+/products/category/1/page/1/	16245		1122.38		14.47		3.34
+/basket/			            18740		1057.49		17.72		2.69
+/order/				            12494		982.4		12.72		3.88
+/order/read/11/			        14992		1211.58		12.37		3.98
+/order/update/11/		        6129		2104.39		16.81		2.91
+
+
+siege -f /home/django/geekshop/urls.txt -i -d0...
+
+Параметр			            -r50 -c50	-r25 -c100
+Число переходов			        30444		11238
+Доступность сервера		        99.97		91.48
+Время теста, с			        2900.73		1695.8
+Время отклика, с		        4.72		13.39
+Запросов в секунду		        10.50		6.63
+Пропускная способность, МБ/сек  0.18		0.11
+Согласованность			        49.55		88.73
+Удачных транзакций		        30444		11552
+Неудачных транзакций		    8		1046
+Самая долгая транзакция, с	    52.87		61.84
+
+Оптимизация:
+
+http://127.0.0.1:8000/ - default 7,45 ms (7 запросов )
+http://127.0.0.1:8000/products/ - default 8,57 ms (10 запросов )
+http://127.0.0.1:8000/contacts/ - default 6,61 ms (6 запросов )
+http://127.0.0.1:8000/auth/edit/ - default 9,86 ms (7 запросов )
+http://127.0.0.1:8000/basket/ - default 10,03 ms (9 запросов including 6 similar and 6 duplicates )
+http://127.0.0.1:8000/order/ - default 8,55 ms (7 запросов )
+http://127.0.0.1:8000/order/create/ - default 10,63 ms (9 запросов including 4 similar and 4 duplicates )
+http://127.0.0.1:8000/order/read/14/ - default 13,53 ms (12 запросов including 6 similar and 6 duplicates )
+http://127.0.0.1:8000/order/update/14/ - default 13,53 ms (12 запросов including 6 similar and 6 duplicates )
+http://127.0.0.1:8000/order/delete/1/ -  default 11,91 ms (7 запросов including 2 similar and 2 duplicates )
+
+Адрес				    Число запросов Число дублей
+/				        11 (-4)		0 (-8/5)
+/products/			    10 (-4)		0 (-8/5)
+/basket/			    9 (-14)		6/6 (-14/13)
+/order/				    7 (-4)		0 (-8/5)
+/order/read/1/			8		    3/3
+/order/update/1/		12 (-142)	6/6 (-142/141)
+
+
+Не всё получилось оптимизировать, но стало гораздо лучше!
+
+siege -f /home/django/geekshop/urls.txt -i -d0...
+
+Параметр			            -r50 -c50	-r25 -c100
+Число переходов
+Доступность сервера
+Время теста, с
+Время отклика, с
+Запросов в секунду
+Пропускная способность,	МБ/сек
+Согласованность
+Удачных транзакций
+Неудачных транзакций
+Самая долгая транзакция, с
+
+
+
+
+
+
