@@ -5,6 +5,9 @@ from django.shortcuts import render, get_object_or_404
 from .models import ProductCategory, Product
 from django.conf import settings
 from django.core.cache import cache
+from django.template.loader import render_to_string
+from django.http import JsonResponse
+
 
 def get_links_menu():
     if settings.LOW_CACHE:
@@ -100,6 +103,7 @@ def get_products_in_category_orederd_by_price(pk):
             category__is_active=True
         ).order_by("price")
 
+
 def index(request):
     products = get_products().order_by('-id')[:4]
     data = {
@@ -180,3 +184,37 @@ def product(request, pk):
     }
 
     return render(request, 'mainapp/product.html', content)
+
+
+def products_ajax(request, pk=None, page=1):
+    if request.is_ajax():
+        if pk == 0:
+            category = {
+                'name': 'все',
+                'pk': pk
+            }
+            products = get_products_orederd_by_price()
+        else:
+            category = get_category(pk)
+            products = get_products_in_category_orederd_by_price(pk)
+        paginator = Paginator(products, 4)
+        try:
+            products_paginator = paginator.page(page)
+        except PageNotAnInteger:
+            products_paginator = paginator.page(1)
+        except EmptyPage:
+            products_paginator = paginator.page(paginator.num_pages)
+
+        content = {
+            'title': 'продукты',
+            'links_menu': get_links_menu(),
+            'category': category,
+            'products': products_paginator,
+        }
+
+        result = render_to_string(
+            'mainapp/includes/inc_products_list_content.html',
+            context=content,
+            request=request)
+
+        return JsonResponse({'result': result})
