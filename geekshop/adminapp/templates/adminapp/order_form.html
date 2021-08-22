@@ -1,13 +1,10 @@
-{% extends 'mainapp/layout.html' %}
+{% extends 'adminapp/layout.html' %}
 {% block title %}{{ title|capfirst }}{% endblock %}
 {% load static %}
 {% load cache %}
 {% block content %}
-    <div class="hero-white">
-        {% include 'mainapp/includes/inc_main_menu.html' %}
-    </div>
     <br>
-    {% include 'ordersapp/includes/inc_order_summary.html' %}
+    {% include 'adminapp/includes/inc_order_summary.html' %}
     <div class="order_form">
         <form action="" method="post">
             {% csrf_token %}
@@ -56,10 +53,10 @@
                 {% endfor %}
             </table>
             <button type="submit" value="сохранить"
-                    class="btn btn-warning btn-round form-control last">
+                    class="btn btn-success btn-round form-control last">
                 сохранить
             </button>
-            {% include 'ordersapp/includes/inc_order_actions.html' %}
+            {% include 'adminapp/includes/inc_order_actions.html' %}
         </form>
     </div>
 

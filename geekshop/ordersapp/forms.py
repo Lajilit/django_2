@@ -1,5 +1,5 @@
 import datetime
-
+from django.forms import BooleanField
 from django import forms
 from django.forms import formset_factory
 
@@ -15,7 +15,9 @@ class OrderForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control'
+            if not isinstance(field, BooleanField):
+                field.widget.attrs['class'] = 'form-control'
+            field.help_text = ''
 
 
 class OrderItemForm(forms.ModelForm):
@@ -26,7 +28,8 @@ class OrderItemForm(forms.ModelForm):
         exclude = ()
 
     def __init__(self, *args, **kwargs):
-        super(OrderItemForm, self).__init__(*args, **kwargs)
-        self.fields['product'].queryset = Product.get_items().select_related()
+        super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control'
+            if not isinstance(field, BooleanField):
+                field.widget.attrs['class'] = 'form-control'
+            field.help_text = ''

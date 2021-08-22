@@ -1,12 +1,9 @@
-{% extends 'mainapp/layout.html' %}
+{% extends 'adminapp/layout.html' %}
 {% block title %}{{ title|capfirst }}{% endblock %}
 {% load static %}
 {% block content %}
-    <div class="hero-white">
-        {% include 'mainapp/includes/inc_main_menu.html' %}
-    </div>
     <br>
-    {% include 'ordersapp/includes/inc_order_summary.html' %}
+    {% include 'adminapp/includes/inc_order_summary.html' %}
     <div class="basket_list">
         {% for item in object.orderitems.select_related %}
             <div class="basket_record">
@@ -28,13 +25,12 @@
             </div>
         {% endfor %}
     </div>
-    {% if object.status == 'FM' %}
+    {% if object.status != 'RDY' %}
         <button class="btn btn-warning form-control last">
             <a href="{% url 'admin_panel:order_update' object.pk %}">
                 редактировать
             </a>
         </button>
     {% endif %}
-    {% include 'ordersapp/includes/inc_order_actions.html' %}
+    {% include 'adminapp/includes/inc_order_actions.html' %}
 {% endblock %}
-

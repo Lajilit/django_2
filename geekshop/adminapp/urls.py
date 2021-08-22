@@ -47,6 +47,10 @@ urlpatterns = [
          views.ProductsListView.as_view(),
          name='products'
          ),
+    path('products/read/<int:pk>/',
+         views.ProductDetailView.as_view(),
+         name='product_read'
+         ),
     path('products/update/<int:pk>/',
          views.ProductUpdateView.as_view(),
          name='product_update'
@@ -55,8 +59,27 @@ urlpatterns = [
          views.ProductDeleteView.as_view(),
          name='product_delete'
          ),
-    path('products/read/<int:pk>/',
-         views.ProductDetailView.as_view(),
-         name='product_read'
+    path('orders/read/user/<int:pk>/',
+         views.OrderListView.as_view(),
+         name='orders_list'
          ),
+    path('orders/read/<int:pk>/',
+         views.OrderDetailView.as_view(),
+         name='order_read'
+         ),
+    path('orders/update/<int:pk>/',
+         views.OrderItemsUpdateView.as_view(),
+         name='order_update'
+         ),
+    path('orders/delete/<int:pk>/',
+         views.OrderDeleteView.as_view(),
+         name='order_delete'
+         ),
+    path('forming/complete/<pk>)/',
+         views.order_collect,
+         name='order_collect'),
+    path('payment/<pk>)/',
+         views.order_send,
+         name='order_send'),
+
 ]

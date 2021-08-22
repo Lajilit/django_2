@@ -4,6 +4,7 @@ from django.forms import BooleanField
 from authapp.forms import ShopUserEditForm, ShopUserRegisterForm
 from authapp.models import ShopUser
 from mainapp.models import ProductCategory, Product
+from ordersapp.models import Order, OrderItem
 
 
 class ShopUserAdminEditForm(ShopUserEditForm):
@@ -75,3 +76,4 @@ class ProductEditForm(forms.ModelForm):
             if not isinstance(field, BooleanField):
                 field.widget.attrs['class'] = 'form-control'
             field.help_text = ''
+
