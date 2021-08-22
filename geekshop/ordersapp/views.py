@@ -31,9 +31,9 @@ class OrderItemsCreate(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         OrderFormSet = inlineformset_factory(Order,
-                                               OrderItem,
-                                               form=OrderItemForm,
-                                               extra=1)
+                                             OrderItem,
+                                             form=OrderItemForm,
+                                             extra=1)
         basket_items = Basket.get_items(self.request.user).select_related()
         if self.request.POST:
             formset = OrderFormSet(self.request.POST)
