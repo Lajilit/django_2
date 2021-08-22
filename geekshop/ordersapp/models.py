@@ -42,7 +42,7 @@ class Order(models.Model):
     def __str__(self):
         return f'заказ № {self.id}'
 
-    def get_product_type_quantity(self):
+    def order_products_number(self):
         items = self.orderitems.select_related()
         return len(items)
 
