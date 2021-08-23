@@ -1,0 +1,13 @@
+http://185.254.189.138/auth/login/?next=/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/auth/edit/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/basket/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/contacts/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/8/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/9/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/11/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/12/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/products/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/products/category/0/page/2/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/products/category/1/page/1/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/products/product/8/ POST username=test&password=test

@@ -12,9 +12,10 @@ class ProductCategory(models.Model):
         verbose_name='описание',
         blank=True,
     )
-    is_deleted = models.BooleanField(
-        default=False,
-        verbose_name='категория удалена'
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name='категория активна',
+        db_index=True,
     )
 
     def __str__(self):
@@ -59,9 +60,10 @@ class Product(models.Model):
         verbose_name='количество',
         default=0
     )
-    is_deleted = models.BooleanField(
-        default=False,
-        verbose_name='товар удален'
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name='товар активен',
+        db_index=True,
     )
 
     class Meta():
@@ -73,5 +75,6 @@ class Product(models.Model):
 
     @staticmethod
     def get_items():
-        return Product.objects.filter(is_deleted=False)\
+        return Product.objects.filter(is_active=True)\
             .order_by('category', 'name')
+

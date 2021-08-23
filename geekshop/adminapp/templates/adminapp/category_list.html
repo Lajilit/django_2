@@ -25,7 +25,7 @@
                         </thead>
                         <tbody>
                         {% for object in objects %}
-                        <tr class="{% if object.is_deleted %}
+                        <tr class="{% if not object.is_active %}
                             is_deleted
                             {% endif %}">
                             <td class="text-center">
@@ -39,7 +39,7 @@
                                     редактировать
                                 </a>
                                 <br>
-                                {% if not object.is_deleted %}
+                                {% if object.is_active %}
                                 <a href="{% url 'admin_panel:category_delete' object.pk %}">
                                     Удалить
                                 </a>

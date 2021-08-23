@@ -1,66 +1,68 @@
-{% extends 'layout.html' %}
+{% extends 'mainapp/layout.html' %}
 {% block title %}{{ title|capfirst }}{% endblock %}
 {% load static %}
 
 {% block content %}
 
-<div class="hero-white">
-    <div class="header clearfix">
-        {% include 'includes/inc_main_menu.html' %}
-    </div>
-</div>
-
-
-<div class="details">
-    <div class="links clearfix">
-        {% include 'includes/inc_categories_menu.html' %}
-    </div>
-
-    <div class="products_list">
-        <div class="title clearfix">
-            <h2>
-                Категория: "{{ category.name|title }}"
-            </h2>
+    <div class="hero-white">
+        <div class="header clearfix">
+            {% include 'mainapp/includes/inc_main_menu.html' %}
         </div>
-        <div class="paginator">
-            {% if products.has_previous %}
-            <a href="{% url 'products:category' category.pk products.previous_page_number %}">
-                <
-            </a>
-            {% endif %}
-            <span class="current">
+    </div>
+
+
+    <div class="details">
+        <div class="links clearfix">
+            {% include 'mainapp/includes/inc_categories_menu.html' %}
+        </div>
+
+        <div class="products_list">
+            <div class="title clearfix">
+                <h2>
+                    Категория: "{{ category.name|title }}"
+                </h2>
+            </div>
+            <div class="paginator">
+                {% if products.has_previous %}
+                    <a href="{% url 'products:category' category.pk products.previous_page_number %}">
+                        <
+                    </a>
+                {% endif %}
+                <span class="current">
             страница {{ products.number }} из
             {{ products.paginator.num_pages }}
           </span>
-            {% if products.has_next %}
-            <a href="{% url 'products:category' category.pk products.next_page_number %}">
-                >
-            </a>
-            {% endif %}
+                {% if products.has_next %}
+                    <a href="{% url 'products:category' category.pk products.next_page_number %}">
+                        >
+                    </a>
+                {% endif %}
+            </div>
         </div>
-    </div>
-    <div class="category-products clearfix">
-        {% for product in products %}
-        <div class="block">
-            <a href="{% url 'products:product' product.pk %}">
-                <img class="img_block" src="/media/{{ product.image }}"
-                     alt="product">
-                <div class="text">
-                    <h4>{{ product.name }}</h4>
-                    <p>{{ product.description }}</p>
+        <div class="tab-content clearfix">
+            {% for product in products %}
+                <div class="block">
+                    <a href="{% url 'products:product' product.pk %}"><img
+                            class="img_block"
+                            src="/media/{{ product.image }}"
+                            alt="{{ product.short_desc }}">
+                        <div class="text">
+                            <h4>{{ product.name }}</h4>
+                            <p>{{ product.description }}</p>
+                        </div>
+                    </a>
+                    <a href="{% url 'basket:add' product.pk %}"
+                       class="red-button rb">
+                        заказать
+                    </a>
                 </div>
-            </a>
-            <a href="{% url 'basket:add' product.pk %}" class="red-button">
-                заказать
-            </a>
+            {% endfor %}
+
         </div>
-        {% endfor %}
-
     </div>
-</div>
-</div>
+    </div>
 
-<div class="clr"></div>
+    <div class="clr"></div>
 
 {% endblock %}
 

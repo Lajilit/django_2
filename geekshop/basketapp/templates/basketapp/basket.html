@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+{% extends 'mainapp/layout.html' %}
 {% block title %}{{ title|capfirst }}{% endblock %}
 {% load static %}
 {% block css %}
@@ -8,7 +8,7 @@
 {% endblock %}
 {% block content %}
 <div class="hero-white">
-    {% include 'includes/inc_main_menu.html' %}
+    {% include 'mainapp/includes/inc_main_menu.html' %}
 </div>
 <div class="basket_container">
     <h2 class="big-bold">Ваша корзина,
@@ -20,6 +20,10 @@
     <div class="basket_list">
         {% include 'basketapp/includes/inc_basket_list.html' %}
     </div>
+       <a href="{% url 'ordersapp:order_create' %}" class="red-button rb">
+           оформить заказ
+       </a>
+
 </div>
 {% endblock %}
 {% block js %}

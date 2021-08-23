@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, \
     DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from basketapp.models import Basket
 from mainapp.models import Product
@@ -14,14 +15,15 @@ from ordersapp.forms import OrderItemForm
 from ordersapp.models import Order, OrderItem
 
 
-class OrderList(ListView):
+
+class OrderList(LoginRequiredMixin, ListView):
     model = Order
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
 
 
-class OrderItemsCreate(CreateView):
+class OrderItemsCreate(LoginRequiredMixin, CreateView):
     model = Order
     fields = []
 
@@ -34,8 +36,8 @@ class OrderItemsCreate(CreateView):
         OrderFormSet = inlineformset_factory(Order,
                                                OrderItem,
                                                form=OrderItemForm,
-                                               extra=10)
-        basket_items = Basket.get_items(self.request.user)
+                                               extra=1)
+        basket_items = Basket.get_items(self.request.user).select_related()
         if self.request.POST:
             formset = OrderFormSet(self.request.POST)
             basket_items.delete()
@@ -74,7 +76,7 @@ class OrderItemsCreate(CreateView):
         return super().form_valid(form)
 
 
-class OrderRead(DetailView):
+class OrderRead(LoginRequiredMixin, DetailView):
     model = Order
 
     def get_context_data(self, **kwargs):
@@ -83,7 +85,7 @@ class OrderRead(DetailView):
         return context
 
 
-class OrderItemsUpdate(UpdateView):
+class OrderItemsUpdate(LoginRequiredMixin, UpdateView):
     model = Order
     fields = []
 
@@ -96,12 +98,13 @@ class OrderItemsUpdate(UpdateView):
         OrderFormSet = inlineformset_factory(Order,
                                                OrderItem,
                                                form=OrderItemForm,
-                                               extra=10)
+                                               extra=1)
         if self.request.POST:
             formset = OrderFormSet(self.request.POST,
                                      instance=self.object)
         else:
-            formset = OrderFormSet(instance=self.object)
+            queryset = self.object.orderitems.select_related()
+            formset = OrderFormSet(instance=self.object, queryset=queryset)
             for form in formset.forms:
                 if form.instance.pk:
                     form.initial['price'] = form.instance.product.price
@@ -126,7 +129,7 @@ class OrderItemsUpdate(UpdateView):
         return super().form_valid(form)
 
 
-class OrderDelete(DeleteView):
+class OrderDelete(LoginRequiredMixin, DeleteView):
     model = Order
     success_url = reverse_lazy('ordersapp:orders_list')
 

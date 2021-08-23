@@ -11,13 +11,13 @@ from mainapp.models import Product
 @login_required
 def basket(request):
     title = 'корзина'
-    basket_items = Basket.objects.filter(user=request.user). \
-        order_by('product__category')
+    basket_items = Basket.objects.\
+        filter(user=request.user).\
+        select_related()
 
     context = {
         'title': title,
         'basket_items': basket_items,
-
     }
 
     return render(request, 'basketapp/basket.html', context)
@@ -58,7 +58,7 @@ def basket_edit(request, pk, quantity):
         else:
             new_basket_item.delete()
 
-        basket_items = Basket.objects.filter(user=request.user). \
+        basket_items = Basket.objects.filter(user=request.user).select_related('user'). \
             order_by('product__category')
 
         context = {

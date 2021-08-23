@@ -18,7 +18,6 @@ class ShopUserAdminEditForm(ShopUserEditForm):
             'avatar',
             'is_active',
             'is_staff',
-            'is_deleted'
         )
 
 
@@ -36,7 +35,6 @@ class ShopUserAdminRegisterForm(ShopUserRegisterForm):
             'avatar',
             'is_active',
             'is_staff',
-            'is_deleted',
         )
 
 

@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+{% extends 'mainapp/layout.html' %}
 {% block title %}{{ title|capfirst }}{% endblock %}
 {% load static %}
 
@@ -6,12 +6,12 @@
 
 
 <div class="hero-white">
-    {% include 'includes/inc_main_menu.html' %}
+    {% include 'mainapp/includes/inc_main_menu.html' %}
 </div>
 
 <div class="details">
     <div class="links clearfix">
-        {% include 'includes/inc_categories_menu.html' %}
+        {% include 'mainapp/includes/inc_categories_menu.html' %}
     </div>
 
     <div class="details-products">
@@ -20,21 +20,6 @@
                 <img src="/media/{{ hot_product.image }}"
                      alt="{{ product.short_desc }}">
             </div>
-            <!--<div class="slider-control">
-                <div class="block">
-                    <a href="#"><img src="/media/{{ hot_product.image }}"
-                                     alt=""></a>
-                </div>
-                <div class="block">
-                    <a href="#"><img src="/media/{{ hot_product.image }}"
-                                     alt=""></a>
-                </div>
-                <div class="block">
-                    <a href="#"><img src="/media/{{ hot_product.image }}"
-                                     alt=""></a>
-                </div>
-            </div>-->
-
         </div>
         <div class="description">
             <h3 class="big-bold">{{ hot_product.name }}</h3>
@@ -65,12 +50,11 @@
                         src="/media/{{ product.image }}"
                         alt="{{ product.short_desc }}">
                     <div class="text">
-                        <img src="{% static 'mainapp/img/icon-hover.png' %}" alt="img">
                         <h4>{{ product.name }}</h4>
                         <p>{{ product.description }}</p>
                     </div>
                 </a>
-                <a href="{% url 'basket:add' product.pk %}" class="red-button">
+                <a href="{% url 'basket:add' product.pk %}" class="red-button rb">
                     заказать
                 </a>
             </div>

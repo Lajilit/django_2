@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.contrib import auth, messages
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 from django.db import transaction
 from django.shortcuts import render, HttpResponseRedirect
@@ -10,7 +11,6 @@ from .forms import ShopUserEditForm, ShopUserProfileEditForm
 from .forms import ShopUserLoginForm
 from .forms import ShopUserRegisterForm
 from .models import ShopUser
-
 
 class UserLoginView(LoginView):
     model = ShopUser
@@ -57,26 +57,6 @@ def register(request):
         return render(request, 'authapp/register.html', context)
 
 
-def edit(request):
-    title = 'Редактирование данных пользователя'
-
-    if request.method == 'POST':
-        edit_form = ShopUserEditForm(request.POST, request.FILES,
-                                     instance=request.user)
-        if edit_form.is_valid():
-            edit_form.save()
-            return HttpResponseRedirect(reverse('auth:edit'))
-    else:
-        edit_form = ShopUserEditForm(instance=request.user)
-
-    content = {
-        'title': title,
-        'edit_form': edit_form,
-    }
-
-    return render(request, 'authapp/edit.html', content)
-
-
 def send_verify_mail(user):
     verify_link = reverse('auth:verify', args=[user.email, user.activation_key])
 
@@ -106,7 +86,7 @@ def verify(request, email, activation_key):
         print(f'error activation user : {e.args}')
         return HttpResponseRedirect(reverse('index'))
 
-
+@login_required
 @transaction.atomic
 def edit(request):
     title = 'редактирование'

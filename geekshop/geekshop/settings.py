@@ -56,6 +56,7 @@ if DEBUG:
     INSTALLED_APPS.extend([
         'debug_toolbar',
         'template_profiler_panel',
+        "django_extensions",
     ])
 
 # Auth model
@@ -65,7 +66,8 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'authapp.middle.DisableCSRFMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -162,7 +164,9 @@ if DEBUG:
         BASE_DIR / 'static',
     ]
 else:
-    STATIC_ROOT = '/var/www/django_2/geekshop/static/'
+    # STATIC_ROOT = '/var/www/django_2/geekshop/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
