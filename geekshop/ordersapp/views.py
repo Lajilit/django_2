@@ -35,10 +35,10 @@ class OrderItemsCreate(LoginRequiredMixin, CreateView):
                                              OrderItem,
                                              form=OrderItemForm,
                                              extra=1)
-        basket_items = Basket.get_items(self.request.user).select_related()
+        basket_items = self.request.user.basket.select_related()\
+            .order_by("product__category")
         if self.request.POST:
             formset = OrderFormSet(self.request.POST)
-            basket_items.delete()
         else:
             if len(basket_items):
                 OrderFormSet = inlineformset_factory(Order,
@@ -66,9 +66,10 @@ class OrderItemsCreate(LoginRequiredMixin, CreateView):
             if orderitems.is_valid():
                 orderitems.instance = self.object
                 orderitems.save()
+            # Delete items in basket after order creating only
+            Basket.objects.filter(user=self.request.user).delete()
 
-        # удаляем пустой заказ
-
+        # Delete empty order
         if self.object.order_products_number() == 0:
             self.object.is_active = False
             self.object.status = Order.CANCEL
