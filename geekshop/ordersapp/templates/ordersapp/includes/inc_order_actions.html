@@ -1,14 +1,26 @@
 {% if object.status == 'FM' %}
-   <button class="btn btn-warning btn-round form-control last">
+    <button class="btn btn-success form-control last">
        <a href="{% url 'ordersapp:order_forming_complete' object.pk %}">
-           Купить
+           Завершить оформление
        </a>
    </button>
-   <button class="btn btn-default btn-round form-control last">
-       <a href="{% url 'ordersapp:order_delete' object.pk %}">Удалить</a>
+{% elif object.status == 'AP' %}
+    <button class="btn btn-success form-control last">
+        <a href="{% url 'ordersapp:order_payment' object.pk %}">
+            Оплатить заказ
+        </a>
    </button>
 {% endif %}
-<button class="btn btn-info btn-round form-control last">
+
+{% if object.status and object.status != 'RDY' and object.status != 'CNC' %}
+    <button class="btn btn-danger form-control last">
+    <a href="{% url 'ordersapp:order_delete' object.pk %}">
+        Отменить заказ
+    </a>
+   </button>
+
+{% endif %}
+<button class="btn form-control last">
    <a href="{% url 'ordersapp:orders_list' %}">
        К списку заказов
    </a>

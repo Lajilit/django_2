@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.db import models
-
 from mainapp.models import Product
+from django.shortcuts import get_object_or_404
+from django.utils.functional import cached_property
 
 
 class Basket(models.Model):
@@ -23,22 +24,24 @@ class Basket(models.Model):
 
     @property
     def total_quantity(self):
-        """return total quantity for user"""
-        _items = Basket.objects.filter(user=self.user)
-        _totalquantity = sum(list(map(lambda x: x.quantity, _items)))
-        return _totalquantity
+        "return total quantity for user"
+        _items = self.get_items_cached
+        return sum(list(map(lambda x: x.quantity, _items)))
 
     @property
     def total_cost(self):
-        """return total cost for user"""
-        _items = Basket.objects.filter(user=self.user).select_related('product')
-        _totalcost = sum(list(map(lambda x: x.product_cost, _items)))
-        return _totalcost
+        "return total cost for user"
+        _items = self.get_items_cached
+        return sum(list(map(lambda x: x.product_cost, _items)))
 
     @staticmethod
     def get_item(pk):
-        return Basket.objects.get(id=pk)
+        return get_object_or_404(Basket, pk=pk)
 
     @staticmethod
     def get_items(user):
-        return Basket.objects.filter(user=user)
+        return Basket.objects.filter(user=user).order_by("product__category")
+
+    @cached_property
+    def get_items_cached(self):
+        return self.user.basket.select_related()

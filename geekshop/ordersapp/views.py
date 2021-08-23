@@ -26,17 +26,14 @@ class OrderList(LoginRequiredMixin, ListView):
 class OrderItemsCreate(LoginRequiredMixin, CreateView):
     model = Order
     fields = []
-
-    def get_success_url(self, **kwargs):
-        pk = self.object.pk
-        return reverse('ordersapp:order_update', args=[pk])
+    success_url = reverse_lazy('ordersapp:orders_list')
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
         OrderFormSet = inlineformset_factory(Order,
-                                               OrderItem,
-                                               form=OrderItemForm,
-                                               extra=1)
+                                             OrderItem,
+                                             form=OrderItemForm,
+                                             extra=1)
         basket_items = Basket.get_items(self.request.user).select_related()
         if self.request.POST:
             formset = OrderFormSet(self.request.POST)
@@ -70,8 +67,11 @@ class OrderItemsCreate(LoginRequiredMixin, CreateView):
                 orderitems.save()
 
         # удаляем пустой заказ
-        if self.object.get_total_cost() == 0:
-            self.object.delete()
+
+        if self.object.order_products_number() == 0:
+            self.object.is_active = False
+            self.object.status = Order.CANCEL
+            self.object.save()
 
         return super().form_valid(form)
 
@@ -88,10 +88,7 @@ class OrderRead(LoginRequiredMixin, DetailView):
 class OrderItemsUpdate(LoginRequiredMixin, UpdateView):
     model = Order
     fields = []
-
-    def get_success_url(self, **kwargs):
-        pk = self.object.pk
-        return reverse('ordersapp:order_update', args=[pk])
+    success_url = reverse_lazy('ordersapp:orders_list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -123,8 +120,10 @@ class OrderItemsUpdate(LoginRequiredMixin, UpdateView):
                 orderitems.save()
 
         # удаляем пустой заказ
-        if self.object.get_total_cost() == 0:
-            self.object.delete()
+        if self.object.order_products_number() == 0:
+            self.object.is_active = False
+            self.object.status = Order.CANCEL
+            self.object.save()
 
         return super().form_valid(form)
 
@@ -133,10 +132,31 @@ class OrderDelete(LoginRequiredMixin, DeleteView):
     model = Order
     success_url = reverse_lazy('ordersapp:orders_list')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'удаление заказа'
+
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.is_active = False
+        self.object.status = Order.CANCEL
+        self.object.save()
+
+        return HttpResponseRedirect(self.get_success_url())
+
 
 def order_forming_complete(request, pk):
     order = get_object_or_404(Order, pk=pk)
-    order.status = Order.SENT_TO_PROCEED
+    order.status = Order.AWAITING_PAYMENT
+    order.save()
+
+    return HttpResponseRedirect(reverse('ordersapp:orders_list'))
+
+def order_payment(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    order.status = Order.PAID
     order.save()
 
     return HttpResponseRedirect(reverse('ordersapp:orders_list'))

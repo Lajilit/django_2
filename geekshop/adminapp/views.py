@@ -1,4 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
+from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
@@ -7,6 +9,9 @@ from django.views.generic.edit import DeleteView
 
 from authapp.models import ShopUser
 from mainapp.models import ProductCategory, Product
+from ordersapp.forms import OrderForm, OrderItemForm
+from ordersapp.models import Order, OrderItem
+from ordersapp.views import OrderItemsUpdate
 from .forms import ShopUserAdminEditForm, ProductCategoryEditForm, \
     ProductEditForm, ShopUserAdminRegisterForm
 
@@ -138,7 +143,7 @@ class ProductCategoryDeleteView(LoginRequiredMixin, DeleteView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class ProductsListView(ListView):
+class ProductsListView(LoginRequiredMixin, ListView):
     model = Product
     template_name = 'adminapp/product_list.html'
 
@@ -239,7 +244,7 @@ class ProductDeleteView(LoginRequiredMixin, DeleteView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = 'adminapp/product_read.html'
 
@@ -248,3 +253,131 @@ class ProductDetailView(DetailView):
         context['title'] = self.object.name
 
         return context
+
+
+class OrderListView(LoginRequiredMixin, ListView):
+    model = Order
+    template_name = 'adminapp/order_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs['pk']
+        if pk == 0:
+            title = 'Все заказы'
+            user = {
+                'username': 'все',
+                'pk': pk
+            }
+            objects_list = Order.objects.all().select_related().order_by('-is_active', '-id')
+
+        else:
+            user = get_object_or_404(ShopUser, pk=pk)
+            title = f'Заказы пользователя {user.username}'
+            objects_list = Order.objects \
+                .filter(user__pk=pk) \
+                .order_by('-is_active', 'id') \
+                .select_related()
+
+        context['user'] = user
+        context['object_list'] = objects_list
+        context['title'] = title
+        return context
+
+
+class OrderDetailView(LoginRequiredMixin, DetailView):
+    model = Order
+    template_name = 'adminapp/order_read.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = f'Заказ № {self.object.id} пользователя {self.object.user.username}'
+
+        return context
+
+
+class OrderItemsUpdateView(LoginRequiredMixin, UpdateView):
+    model = Order
+    fields = []
+    template_name = 'adminapp/order_form.html'
+
+    def get_success_url(self, **kwargs):
+        return reverse('admin_panel:orders_list', args=[0])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        OrderFormSet = inlineformset_factory(Order,
+                                             OrderItem,
+                                             form=OrderItemForm,
+                                             extra=1)
+        if self.request.POST:
+            formset = OrderFormSet(self.request.POST,
+                                     instance=self.object)
+        else:
+            queryset = self.object.orderitems.select_related()
+            formset = OrderFormSet(instance=self.object, queryset=queryset)
+            for form in formset.forms:
+                if form.instance.pk:
+                    form.initial['price'] = form.instance.product.price
+        context['orderitems'] = formset
+        context['title'] = 'редактирование заказа'
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        orderitems = context['orderitems']
+
+        with transaction.atomic():
+            self.object = form.save()
+            if orderitems.is_valid():
+                orderitems.instance = self.object
+                orderitems.save()
+
+        # удаляем пустой заказ
+        if self.object.get_summary()['total_cost'] == 0:
+            self.object.is_active = False
+            self.object.status = Order.CANCEL
+            self.object.save()
+
+        return super().form_valid(form)
+
+
+
+class OrderDeleteView(LoginRequiredMixin, DeleteView):
+    model = Order
+
+    template_name = 'adminapp/order_delete.html'
+
+    def get_success_url(self, **kwargs):
+        return reverse('admin_panel:orders_list', args=[0])
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'удаление заказа'
+
+        return context
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.is_active = False
+        self.object.status = Order.CANCEL
+        self.object.save()
+
+        return HttpResponseRedirect(self.get_success_url())
+
+
+
+def order_collect(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    order.status = Order.PROCEEDED
+    order.save()
+    user = order.user.pk
+
+    return HttpResponseRedirect(reverse('admin_panel:orders_list', args=[user]))
+
+def order_send(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    order.status = Order.READY
+    order.save()
+    user = order.user.pk
+
+    return HttpResponseRedirect(reverse('admin_panel:orders_list', args=[user]))

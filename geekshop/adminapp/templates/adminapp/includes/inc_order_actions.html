@@ -1,0 +1,30 @@
+{% if object.status == 'PD' %}
+    <button class="btn form-control last">
+        <a href="{% url 'admin_panel:order_collect' object.pk %}">
+            Собрать заказ
+        </a>
+    </button>
+{% elif object.status == 'PRD' %}
+    <button class="btn form-control last">
+        <a href="{% url 'admin_panel:order_send' object.pk %}">
+            Отправить заказ
+        </a>
+    </button>
+{% endif %}
+{% if object.status != 'RDY' and object.status != 'CNC' %}
+    <button class="btn btn-danger form-control last">
+        <a href="{% url 'admin_panel:order_delete' object.pk %}">
+            Отменить заказ
+        </a>
+    </button>
+{% endif %}
+<button class="btn form-control last">
+    <a href="{% url 'admin_panel:orders_list' object.user.pk %}">
+        Заказы пользователя {{ object.user.username }}
+    </a>
+</button>
+<button class="btn form-control last">
+    <a href="{% url 'admin_panel:orders_list' 0 %}">
+        Все заказы
+    </a>
+</button>

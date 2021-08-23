@@ -1,0 +1,181 @@
+Список адресов
+http://127.0.0.1:8000/auth/login/?next=/basket/ POST username=test&password=test
+http://127.0.0.1:8000/auth/login/?next=/order/ POST username=test&password=test
+http://127.0.0.1:8000/auth/login/?next=/order/update/15/ POST username=test&password=test
+
+В корзине 10 товаров.
+В заказе 10 товаров.
+
+http://lajil.ru/basket/ - default 11,85 ms (9 запросов including 6 similar and 6 duplicates )
+http://lajil.ru/order/update/15/ - default 19,40 ms (21 запрос including 13 similar and 13 duplicates )
+
+siege -f geekshop/tmp/test_urls.txt -d0 -r15 -c10
+
+** SIEGE 4.0.4
+** Preparing 10 concurrent users for battle.
+The server is now under siege...
+Transactions:                   2200 hits
+Availability:                 100.00 %
+Elapsed time:                 203.06 secs
+Data transferred:              33.23 MB
+Response time:                  0.90 secs
+Transaction rate:              10.83 trans/sec
+Throughput:                     0.16 MB/sec
+Concurrency:                    9.73
+Successful transactions:        2200
+Failed transactions:               0
+Longest transaction:           13.20
+Shortest transaction:           0.02
+
+
+После оптимизации:
+
+http://lajil.ru/basket/ - default 11,61 ms (7 запросов including 4 similar and 4 duplicates )
+http://lajil.ru/order/update/15/ -  default 20,57 ms (19 запросов including 13 similar and 13 duplicates )
+
+
+siege -f geekshop/tmp/test_urls.txt -d0 -r15 -c10
+
+
+** SIEGE 4.0.4
+** Preparing 10 concurrent users for battle.
+The server is now under siege...
+Transactions:                   2200 hits
+Availability:                 100.00 %
+Elapsed time:                 188.51 secs
+Data transferred:              33.00 MB
+Response time:                  0.83 secs
+Transaction rate:              11.67 trans/sec
+Throughput:                     0.18 MB/sec
+Concurrency:                    9.69
+Successful transactions:        2200
+Failed transactions:               0
+Longest transaction:           13.51
+Shortest transaction:           0.02
+
+Низкоуровневое кэширование:
+
+http://lajil.ru/
+http://lajil.ru/products/
+http://lajil.ru/contact/
+http://lajil.ru/products/category/1/page/1/
+http://lajil.ru/products/category/2/page/1/
+http://lajil.ru/products/category/3/page/1/
+http://lajil.ru/products/category/4/page/1/
+
+LOW_CACHE = False
+
+siege -i -f geekshop/tmp/test_urls.txt -d0 -r15 -c15
+** SIEGE 4.0.4
+** Preparing 15 concurrent users for battle.
+The server is now under siege...
+Transactions:                   2384 hits
+Availability:                 100.00 %
+Elapsed time:                  56.66 secs
+Data transferred:              38.41 MB
+Response time:                  0.34 secs
+Transaction rate:              42.08 trans/sec
+Throughput:                     0.68 MB/sec
+Concurrency:                   14.25
+Successful transactions:        2357
+Failed transactions:               0
+Longest transaction:            4.41
+Shortest transaction:           0.03
+
+
+LOW_CACHE = True
+siege -i -f geekshop/tmp/test_urls.txt -d0 -r15 -c15
+** SIEGE 4.0.4
+** Preparing 15 concurrent users for battle.
+The server is now under siege...
+Transactions:                   2271 hits
+Availability:                 100.00 %
+Elapsed time:                  35.88 secs
+Data transferred:              35.51 MB
+Response time:                  0.21 secs
+Transaction rate:              63.29 trans/sec
+Throughput:                     0.99 MB/sec
+Concurrency:                   13.52
+Successful transactions:        2233
+Failed transactions:               0
+Longest transaction:            3.10
+Shortest transaction:           0.03
+
+Кэширование фрагментов шаблонов
+
+http://185.254.189.138/auth/login/?next=/order/update/8/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/9/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/10/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/11/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/12/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/13/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/14/ POST username=test&password=test
+http://185.254.189.138/auth/login/?next=/order/update/15/ POST username=test&password=test
+
+До кэширования:
+
+siege -f geekshop/tmp/test_urls.txt -d0 -r15 -c15
+** SIEGE 4.0.4
+** Preparing 15 concurrent users for battle.
+The server is now under siege...
+Transactions:                   2700 hits
+Availability:                 100.00 %
+Elapsed time:                 303.43 secs
+Data transferred:              47.94 MB
+Response time:                  1.64 secs
+Transaction rate:               8.90 trans/sec
+Throughput:                     0.16 MB/sec
+Concurrency:                   14.62
+Successful transactions:        2700
+Failed transactions:               0
+Longest transaction:           18.95
+Shortest transaction:           0.02
+
+После кэширования:
+
+siege -f geekshop/tmp/test_urls.txt -d0 -r15 -c15
+** SIEGE 4.0.4
+** Preparing 15 concurrent users for battle.
+The server is now under siege...
+Transactions:                   2700 hits
+Availability:                 100.00 %
+Elapsed time:                 278.04 secs
+Data transferred:              46.70 MB
+Response time:                  1.51 secs
+Transaction rate:               9.71 trans/sec
+Throughput:                     0.17 MB/sec
+Concurrency:                   14.63
+Successful transactions:        2700
+Failed transactions:               0
+Longest transaction:           15.64
+Shortest transaction:           0.02
+
+
+Кэширование контроллера Products()
+
+до кэширования:
+
+http://lajil.ru/products/category/0/page/1/
+25 requests
+34.6 kB transferred
+870 kB resources
+Finish: 639 ms
+
+
+после кэширования:
+
+26 requests
+35.1 kB transferred
+870 kB resources
+Finish: 907 ms
+
+26 requests
+34.6 kB transferred
+870 kB resources
+Finish: 1.29 s
+
+После кэширования контроллера сломалась подсветка активной категории, нужно думать, как её теперь реализовать.
+Тем не менее, загрузка страницы стала гораздо быстрее
+
+
+Кэширование всего сайта я не делала, но ознакомилась.

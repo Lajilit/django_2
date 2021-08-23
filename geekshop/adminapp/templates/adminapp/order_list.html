@@ -1,0 +1,84 @@
+{% extends 'adminapp/layout.html' %}
+{% block title %}{{ title|capfirst }}{% endblock %}
+{% load static %}
+
+{% block content %}
+    <main>
+        <div class="container-fluid">
+            <h1 class="mt-4">{{ title|capfirst }}</h1>
+            <div class="card mb-4">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable"
+                               width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>ID Заказа</th>
+                                <th>Пользователь</th>
+                                <th>Создан</th>
+                                <th>Обновлен</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for object in object_list %}
+                                <tr class="{% if not object.is_active %}
+                            is_deleted
+                            {% endif %}">
+                                    <td class="text-center">
+                                        <a href="{% url 'admin_panel:order_read' object.pk %}">
+                                            {{ object.pk }}
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{% url 'admin_panel:orders_list' object.user.pk %}">
+                                            {{ object.user.username }}
+                                        </a>
+                                    </td>
+                                    <td class="text-center">
+                                        {{ object.created|date:"Y-m-d H:i:s" }}
+                                    </td>
+                                    <td class="text-center">
+                                        {{ object.updated|date:"Y-m-d H:i:s" }}
+                                    </td>
+                                    <td>{{ object.get_status_display }}</td>
+                                    <td class="text-center">
+                                        {% if object.status != 'RDY' %}
+                                            <a href="{% url 'admin_panel:order_update' object.pk %}">
+                                                редактировать
+                                            </a>
+                                        {% endif %}
+                                        {% if object.status == 'PD' %}
+                                            <br>
+                                            <a href="{% url 'admin_panel:order_collect' object.pk %}">
+                                                собрать заказ
+                                            </a>
+                                        {% elif object.status == 'PRD' %}
+                                            <br>
+                                            <a href="{% url 'admin_panel:order_send' object.pk %}">
+                                                отправить заказ
+                                            </a>
+                                        {% endif %}
+
+                                        {% if object.status != 'RDY' and object.status != 'CNC' %}
+                                            <br>
+                                            <a href="{% url 'admin_panel:order_delete' object.pk %}">
+                                                отменить заказ
+                                            </a>
+                                        {% elif object.status == 'CNC' %}
+                                            <p>Удален</p>
+                                        {% else %}
+                                            <p>Отправлен</p>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

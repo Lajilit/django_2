@@ -2,20 +2,23 @@
 {% block title %}{{ title|capfirst }}{% endblock %}
 {% load static %}
 {% block content %}
-<div class="hero-white">
-{% include 'mainapp/includes/inc_main_menu.html' %}
-</div>
-<br>
-<div class="category_delete">
-   <div class="h1">Уверены, что хотите удалить?</div>
-   {% include 'ordersapp/includes/inc_order_summary.html' %}
-   <form action="{% url 'ordersapp:order_delete' object.pk %}" method="post">
-       {% csrf_token %}
-       <input class="btn btn-danger" type="submit" value="удалить">
-   </form>
-   <button class="btn btn-success">
-       <a href="{% url 'ordersapp:orders_list' %}">отмена</a>
-   </button>
-</div>
+    <div class="hero-white">
+        {% include 'mainapp/includes/inc_main_menu.html' %}
+    </div>
+    <br>
+    <div class="category_delete">
+        <p class="text-center">
+            Уверены, что хотите удалить {{ object }}?
+        </p>
+        <form class="form-horizontal" method="post"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="submit" class="btn btn-round btn-danger form-control"
+                   value="Удалить">
+        </form>
+        <button class="btn btn-success form-control">
+            <a href="{% url 'ordersapp:orders_list' %}">отмена</a>
+        </button>
+    </div>
 {% endblock %}
 

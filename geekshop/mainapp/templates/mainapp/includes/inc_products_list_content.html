@@ -1,0 +1,48 @@
+{% load static %}
+<div class="links clearfix">
+    {% include 'mainapp/includes/inc_categories_menu.html' %}
+</div>
+
+<div class="products_list">
+    <div class="title clearfix">
+        <h2>
+            Категория: "{{ category.name|title }}"
+        </h2>
+    </div>
+    <div class="paginator">
+        {% if products.has_previous %}
+            <a href="{% url 'products:category' category.pk products.previous_page_number %}">
+                <
+            </a>
+        {% endif %}
+        <span class="current">
+            страница {{ products.number }} из
+            {{ products.paginator.num_pages }}
+          </span>
+        {% if products.has_next %}
+            <a href="{% url 'products:category' category.pk products.next_page_number %}">
+                >
+            </a>
+        {% endif %}
+    </div>
+</div>
+<div class="tab-content clearfix">
+    {% for product in products %}
+        <div class="block">
+            <a href="{% url 'products:product' product.pk %}"><img
+                    class="img_block"
+                    src="/media/{{ product.image }}"
+                    alt="{{ product.short_desc }}">
+                <div class="text">
+                    <h4>{{ product.name }}</h4>
+                    <p>{{ product.description }}</p>
+                </div>
+            </a>
+            <a href="{% url 'basket:add' product.pk %}"
+               class="red-button rb">
+                заказать
+            </a>
+        </div>
+    {% endfor %}
+
+</div>
