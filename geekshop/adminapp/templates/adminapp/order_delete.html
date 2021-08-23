@@ -7,14 +7,20 @@
         <div class="card-body">
             <h1 class="text-center">{{ title|capfirst }}</h1>
             <p class="text-center">
-                Уверены, что хотите удалить {{ object }} пользователя {{ object.user.username }}?
+                Уверены, что хотите
+                {% if object.status != 'CNC' %}
+                    отменить
+                {% else %}
+                    восстановить
+                {% endif %}
+                {{ object }} пользователя {{ object.user.username }}?
             </p>
         </div>
     </div>
     <form class="form-horizontal" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="submit" class="btn btn-round btn-danger form-control"
-               value="Удалить">
+               value="{% if object.status != 'CNC' %}Отменить{% else %}Восстановить{% endif %}">
     </form>
 
     <button class="btn btn-round form-control last">

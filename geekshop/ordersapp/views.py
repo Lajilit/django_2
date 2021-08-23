@@ -90,6 +90,9 @@ class OrderItemsUpdate(LoginRequiredMixin, UpdateView):
     fields = []
     success_url = reverse_lazy('ordersapp:orders_list')
 
+    class Meta:
+        abstract = True
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         OrderFormSet = inlineformset_factory(Order,
