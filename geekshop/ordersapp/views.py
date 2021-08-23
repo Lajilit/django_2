@@ -1,6 +1,6 @@
 from django.db import transaction
 from django.db.models import F
-from django.db.models.signals import pre_save, pre_delete, post_save
+from django.db.models.signals import pre_save, pre_delete
 from django.dispatch import receiver
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect, JsonResponse
@@ -30,16 +30,16 @@ class OrderItemsCreate(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('ordersapp:orders_list')
 
     def get_context_data(self, **kwargs):
-        data = super().get_context_data(**kwargs)
+        data = super(OrderItemsCreate, self).get_context_data(**kwargs)
         OrderFormSet = inlineformset_factory(Order,
                                              OrderItem,
                                              form=OrderItemForm,
-                                             extra=1)
-        basket_items = self.request.user.basket.select_related()\
-            .order_by("product__category")
+                                             extra=2)
         if self.request.POST:
             formset = OrderFormSet(self.request.POST)
         else:
+            basket_items = self.request.user.basket.select_related() \
+                .order_by("product__category")
             if len(basket_items):
                 OrderFormSet = inlineformset_factory(Order,
                                                        OrderItem,
@@ -47,6 +47,7 @@ class OrderItemsCreate(LoginRequiredMixin, CreateView):
                                                        extra=len(basket_items))
                 formset = OrderFormSet()
                 for num, form in enumerate(formset.forms):
+                    print(basket_items[num].product)
                     form.initial['product'] = basket_items[num].product
                     form.initial['quantity'] = basket_items[num].quantity
                     form.initial['price'] = basket_items[num].product.price
@@ -69,13 +70,12 @@ class OrderItemsCreate(LoginRequiredMixin, CreateView):
             # Delete items in basket after order creating only
             Basket.objects.filter(user=self.request.user).delete()
 
-        # Delete empty order
-        if self.object.order_products_number() == 0:
-            self.object.is_active = False
-            self.object.status = Order.CANCEL
-            self.object.save()
+        # удаляем пустой заказ
+        print(self.object.get_summary()['total_cost'])
+        if self.object.get_summary()['total_cost'] == 0:
+            self.object.delete()
 
-        return super().form_valid(form)
+        return super(OrderItemsCreate, self).form_valid(form)
 
 
 class OrderRead(LoginRequiredMixin, DetailView):
@@ -125,10 +125,9 @@ class OrderItemsUpdate(LoginRequiredMixin, UpdateView):
                 orderitems.save()
 
         # удаляем пустой заказ
-        if self.object.order_products_number() == 0:
-            self.object.is_active = False
-            self.object.status = Order.CANCEL
-            self.object.save()
+        print(self.object.get_summary()['total_cost'])
+        if self.object.get_summary()['total_cost'] == 0:
+            self.object.delete()
 
         return super().form_valid(form)
 

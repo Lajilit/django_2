@@ -55,12 +55,13 @@ class Order(models.Model):
         }
 
     # переопределяем метод, удаляющий объект
-    def delete(self):
+    def delete(self, **kwargs):
         for item in self.orderitems.select_related():
             item.product.quantity += item.quantity
             item.product.save()
 
         self.is_active = False
+        self.status = Order.CANCEL
         self.save()
 
 
