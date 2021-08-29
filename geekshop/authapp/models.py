@@ -27,6 +27,7 @@ class ShopUser(AbstractUser):
     is_active = models.BooleanField(
         db_index=True,
         default=True,
+        verbose_name='пользователь активен',
     )
 
 

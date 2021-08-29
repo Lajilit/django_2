@@ -64,7 +64,7 @@ def get_product(pk):
         return get_object_or_404(Product, pk=pk)
 
 
-def get_products_orederd_by_price():
+def get_products_ordered_by_price():
     if settings.LOW_CACHE:
         key = "products_orederd_by_price"
         products = cache.get(key)
@@ -82,7 +82,7 @@ def get_products_orederd_by_price():
         ).order_by("price")
 
 
-def get_products_in_category_orederd_by_price(pk):
+def get_products_in_category_ordered_by_price(pk):
     if settings.LOW_CACHE:
         key = f"products_in_category_orederd_by_price_{pk}"
         products = cache.get(key)
@@ -138,10 +138,10 @@ def products_list(request, pk, page=1):
             'name': 'все',
             'pk': pk
         }
-        products = get_products_orederd_by_price()
+        products = get_products_ordered_by_price()
     else:
         category = get_category(pk)
-        products = get_products_in_category_orederd_by_price(pk)
+        products = get_products_in_category_ordered_by_price(pk)
     paginator = Paginator(products, 4)
     try:
         products_paginator = paginator.page(page)
@@ -186,35 +186,35 @@ def product(request, pk):
     return render(request, 'mainapp/product.html', content)
 
 
-def products_ajax(request, pk=None, page=1):
-    if request.is_ajax():
-        if pk == 0:
-            category = {
-                'name': 'все',
-                'pk': pk
-            }
-            products = get_products_orederd_by_price()
-        else:
-            category = get_category(pk)
-            products = get_products_in_category_orederd_by_price(pk)
-        paginator = Paginator(products, 4)
-        try:
-            products_paginator = paginator.page(page)
-        except PageNotAnInteger:
-            products_paginator = paginator.page(1)
-        except EmptyPage:
-            products_paginator = paginator.page(paginator.num_pages)
-
-        content = {
-            'title': 'продукты',
-            'links_menu': get_links_menu(),
-            'category': category,
-            'products': products_paginator,
-        }
-
-        result = render_to_string(
-            'mainapp/includes/inc_products_list_content.html',
-            context=content,
-            request=request)
-
-        return JsonResponse({'result': result})
+# def products_ajax(request, pk=None, page=1):
+#     if request.is_ajax():
+#         if pk == 0:
+#             category = {
+#                 'name': 'все',
+#                 'pk': pk
+#             }
+#             products = get_products_orederd_by_price()
+#         else:
+#             category = get_category(pk)
+#             products = get_products_in_category_orederd_by_price(pk)
+#         paginator = Paginator(products, 4)
+#         try:
+#             products_paginator = paginator.page(page)
+#         except PageNotAnInteger:
+#             products_paginator = paginator.page(1)
+#         except EmptyPage:
+#             products_paginator = paginator.page(paginator.num_pages)
+#
+#         content = {
+#             'title': 'продукты',
+#             'links_menu': get_links_menu(),
+#             'category': category,
+#             'products': products_paginator,
+#         }
+#
+#         result = render_to_string(
+#             'mainapp/includes/inc_products_list_content.html',
+#             context=content,
+#             request=request)
+#
+#         return JsonResponse({'result': result})
