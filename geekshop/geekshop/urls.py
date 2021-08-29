@@ -13,27 +13,31 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path, include
+
 from mainapp import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+                  path('admin/', admin.site.urls),
 
+                  path('admin_panel/',
+                       include('adminapp.urls', namespace='admin_panel')),
+                  path('products/',
+                       include('mainapp.urls', namespace='products')),
+                  path('auth/', include('authapp.urls', namespace='auth')),
+                  path('basket/',
+                       include('basketapp.urls', namespace='basket')),
+                  path('order/', include('ordersapp.urls', namespace='order')),
 
-    path('admin_panel/', include('adminapp.urls', namespace='admin_panel')),
-    path('products/', include('mainapp.urls', namespace='products')),
-    path('auth/', include('authapp.urls', namespace='auth')),
-    path('basket/', include('basketapp.urls', namespace='basket')),
-    path('order/', include('ordersapp.urls', namespace='order')),
+                  path('', views.index, name='index'),
+                  path('contacts/', views.contact, name='contacts'),
+                  path('', include('social_django.urls', namespace='social')),
 
-    path('', views.index, name='index'),
-    path('contacts/', views.contact, name='contacts'),
-    path('', include('social_django.urls', namespace='social')),
-
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+              ] + static(settings.STATIC_URL,
+                         document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar

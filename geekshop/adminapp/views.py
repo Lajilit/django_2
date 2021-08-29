@@ -123,7 +123,7 @@ class ProductCategoryUpdateView(LoginRequiredMixin, UpdateView):
         if 'discount' in form.cleaned_data:
             discount = form.cleaned_data['discount']
             if discount:
-                self.object.product_set.\
+                self.object.product_set. \
                     update(price=F('price') * (1 - discount / 100))
                 db_profile_by_type(self.__class__, 'UPDATE',
                                    connection.queries)
@@ -151,10 +151,12 @@ class ProductCategoryDeleteView(LoginRequiredMixin, DeleteView):
 
         return HttpResponseRedirect(self.get_success_url())
 
+
 def db_profile_by_type(prefix, type, queries):
-   update_queries = list(filter(lambda x: type in x['sql'], queries))
-   print(f'db_profile {type} for {prefix}:')
-   [print(query['sql']) for query in update_queries]
+    update_queries = list(filter(lambda x: type in x['sql'], queries))
+    print(f'db_profile {type} for {prefix}:')
+    [print(query['sql']) for query in update_queries]
+
 
 @receiver(pre_save, sender=ProductCategory)
 def product_is_active_update_productcategory_save(sender, instance, **kwargs):
@@ -164,7 +166,7 @@ def product_is_active_update_productcategory_save(sender, instance, **kwargs):
         else:
             instance.product_set.update(is_active=False)
 
-        db_profile_by_type(sender, 'UPDATE', connection.queries)
+        # db_profile_by_type(sender, 'UPDATE', connection.queries)
 
 
 class ProductsListView(LoginRequiredMixin, ListView):
