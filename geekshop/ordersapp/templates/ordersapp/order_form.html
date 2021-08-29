@@ -1,7 +1,6 @@
 {% extends 'mainapp/layout.html' %}
 {% block title %}{{ title|capfirst }}{% endblock %}
 {% load static %}
-{% load cache %}
 {% block content %}
     <div class="hero-white">
         {% include 'mainapp/includes/inc_main_menu.html' %}
@@ -36,13 +35,7 @@
                                 {% endif %}
                                 {{ field.errors.as_ul }}
                                 {% if field.name != 'price' %}
-                                    {% if field.name == 'product' %}
-                                        {% cache 3600 orderitemform_product field.value %}
-                                            {{ field }}
-                                        {% endcache %}
-                                    {% else %}
-                                        {{ field }}
-                                    {% endif %}
+                                    {{ field }}
                                 {% else %}
                                     {% if field.value %}
                                         <span class="orderitems-{{ forloop.parentloop.counter0 }}-price">

@@ -1,0 +1,56 @@
+[
+  {
+    "model": "mainapp.productcategory",
+    "pk": 1,
+    "fields": {
+      "name": "Дом",
+      "description": "Товары для дома",
+      "is_active": true
+    }
+  },
+  {
+    "model": "mainapp.productcategory",
+    "pk": 2,
+    "fields": {
+      "name": "Офис",
+      "description": "Тофары для офиса",
+      "is_active": false
+    }
+  },
+  {
+    "model": "mainapp.productcategory",
+    "pk": 3,
+    "fields": {
+      "name": "Модерн",
+      "description": "Современные товары",
+      "is_active": true
+    }
+  },
+  {
+    "model": "mainapp.productcategory",
+    "pk": 4,
+    "fields": {
+      "name": "Классика",
+      "description": "Нестареющая классика",
+      "is_active": true
+    }
+  },
+  {
+    "model": "mainapp.productcategory",
+    "pk": 5,
+    "fields": {
+      "name": "Комфорт",
+      "description": "Самая удобная мебель",
+      "is_active": true
+    }
+  },
+  {
+    "model": "mainapp.productcategory",
+    "pk": 6,
+    "fields": {
+      "name": "Совсем новая категория",
+      "description": "И новое описание для неё",
+      "is_active": false
+    }
+  }
+]

@@ -30,7 +30,7 @@
     </div>
     {% if object.status == 'FM' %}
         <button class="btn btn-warning form-control last">
-            <a href="{% url 'admin_panel:order_update' object.pk %}">
+            <a href="{% url 'ordersapp:order_update' object.pk %}">
                 редактировать
             </a>
         </button>

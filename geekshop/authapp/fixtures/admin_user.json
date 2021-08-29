@@ -1,0 +1,24 @@
+[
+  {
+    "model": "authapp.shopuser",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$260000$AC4ASIVGuEvauv2VQ4dijB$VXiVu295ikAFdcuouT7eAbdFhf5OWlaY3H8dkawKtyY=",
+      "last_login": "2021-08-29T10:36:15.702Z",
+      "is_superuser": true,
+      "username": "lajil",
+      "first_name": "Екатерина",
+      "last_name": "Вахрушева",
+      "email": "lajilit@gmail.com",
+      "is_staff": true,
+      "date_joined": "2021-08-13T21:43:36.819Z",
+      "avatar": "users_avatars/Аватарка.jpg",
+      "age": 31,
+      "activation_key": "",
+      "activation_key_expires": null,
+      "is_active": true,
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
