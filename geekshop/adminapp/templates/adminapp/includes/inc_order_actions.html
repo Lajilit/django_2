@@ -11,10 +11,14 @@
         </a>
     </button>
 {% endif %}
-{% if object.status != 'RDY' and object.status != 'CNC' %}
+{% if object.status != 'RDY' %}
     <button class="btn btn-danger form-control last">
         <a href="{% url 'admin_panel:order_delete' object.pk %}">
-            Отменить заказ
+            {% if object.status != 'CNC' %}
+                Отменить заказ
+            {% else %}
+                Восстановить заказ
+            {% endif %}
         </a>
     </button>
 {% endif %}

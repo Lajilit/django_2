@@ -76,5 +76,5 @@ class Product(models.Model):
     @staticmethod
     def get_items():
         return Product.objects.filter(is_active=True)\
-            .order_by('category', 'name')
+            .order_by('category', 'name').select_related()
 

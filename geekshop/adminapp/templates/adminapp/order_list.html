@@ -60,14 +60,16 @@
                                                 отправить заказ
                                             </a>
                                         {% endif %}
-
                                         {% if object.status != 'RDY' and object.status != 'CNC' %}
                                             <br>
                                             <a href="{% url 'admin_panel:order_delete' object.pk %}">
                                                 отменить заказ
                                             </a>
                                         {% elif object.status == 'CNC' %}
-                                            <p>Удален</p>
+                                            <br>
+                                            <a href="{% url 'admin_panel:order_delete' object.pk %}">
+                                                восстановить заказ
+                                            </a>
                                         {% else %}
                                             <p>Отправлен</p>
                                         {% endif %}
